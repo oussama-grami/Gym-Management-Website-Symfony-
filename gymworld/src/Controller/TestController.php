@@ -2,23 +2,27 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class TestController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
-    public function index(): Response
+    #[Route('/{id}', name: 'app_home')]
+    public function index(User $user=null,UserRepository $repository): Response
     {
-        return $this->render('index.html.twig');
+        dd($repository->findAll());
+        return $this->render('test/index.html.twig');
     }
 
     //make routes for pages : services , contact , timetable , team
     #[Route('/services', name: 'app_services')]
     public function services(): Response
     {
-        return $this->render('MainPages/service.html.twig', [
+        return $this->render('test/services.html.twig', [
             'controller_name' => 'TestController',
         ]);
     }
@@ -48,7 +52,7 @@ class TestController extends AbstractController
     #[Route('/user/dashboard', name: 'app_user_dashboard')]
     public function dashboard(): Response
     {
-       /* return $this->render('test/about.html.twig', [
+        /* return $this->render('test/about.html.twig', [
              'controller_name' => 'TestController',
          ]);*/
     }
@@ -56,10 +60,10 @@ class TestController extends AbstractController
     #[Route('/user/accesscard', name: 'app_user_accesscard')]
     public function accesscard(): Response
     {
-        /*return $this->render('test/about.html.twig', [
-            'controller_name' => 'TestController',
-        ]);*/
-   }
+        /* return $this->render('test/about.html.twig', [
+             'controller_name' => 'TestController',
+         ]);*/
+    }
 
     #[Route('/logout', name: 'app_logout')]
     public function logout(): Response
@@ -136,11 +140,5 @@ class TestController extends AbstractController
         return $this->render('MainPages/Admin/delete_client.html.twig', [
             'client' => ['name' => 'John Doe',
                 'email' => '']]);
-    }
-
-    #[Route('/admin', name: 'app_admin')]
-    public function admin (): Response
-    {
-        return $this->render('MainPages/Admin/index.html.twig');
     }
 }
