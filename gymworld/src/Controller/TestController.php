@@ -18,7 +18,7 @@ class TestController extends AbstractController
     #[Route('/services', name: 'app_services')]
     public function services(): Response
     {
-        return $this->render('test/services.html.twig', [
+        return $this->render('MainPages/service.html.twig', [
             'controller_name' => 'TestController',
         ]);
     }
@@ -48,7 +48,7 @@ class TestController extends AbstractController
     #[Route('/user/dashboard', name: 'app_user_dashboard')]
     public function dashboard(): Response
     {
-        /* return $this->render('test/about.html.twig', [
+       /* return $this->render('test/about.html.twig', [
              'controller_name' => 'TestController',
          ]);*/
     }
@@ -56,10 +56,10 @@ class TestController extends AbstractController
     #[Route('/user/accesscard', name: 'app_user_accesscard')]
     public function accesscard(): Response
     {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
-    }
+        /*return $this->render('test/about.html.twig', [
+            'controller_name' => 'TestController',
+        ]);*/
+   }
 
     #[Route('/logout', name: 'app_logout')]
     public function logout(): Response
@@ -136,5 +136,11 @@ class TestController extends AbstractController
         return $this->render('MainPages/Admin/delete_client.html.twig', [
             'client' => ['name' => 'John Doe',
                 'email' => '']]);
+    }
+
+    #[Route('/admin', name: 'app_admin')]
+    public function admin (): Response
+    {
+        return $this->render('MainPages/Admin/index.html.twig');
     }
 }
