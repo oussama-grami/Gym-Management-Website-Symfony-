@@ -14,11 +14,11 @@ class OffreClient
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?user $client = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?offres $offre = null;
 
@@ -38,7 +38,7 @@ class OffreClient
         return $this->client;
     }
 
-    public function setClient(user $client): static
+    public function setClient(?user $client): static
     {
         $this->client = $client;
 
@@ -50,7 +50,7 @@ class OffreClient
         return $this->offre;
     }
 
-    public function setOffre(offres $offre): static
+    public function setOffre(?offres $offre): static
     {
         $this->offre = $offre;
 
