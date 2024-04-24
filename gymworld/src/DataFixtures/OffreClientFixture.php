@@ -15,7 +15,7 @@ class OffreClientFixture extends Fixture implements FixtureGroupInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $user = $manager->getReference(User::class, 3);
+        $user = $manager->getReference(User::class, 1);
         $offre = $manager->getReference(offres::class, 1);
         $dateDebut = DateTime::createFromFormat('Y-m-d', '2024-04-27');
         $dateFin = DateTime::createFromFormat('Y-m-d', '2024-05-27');
