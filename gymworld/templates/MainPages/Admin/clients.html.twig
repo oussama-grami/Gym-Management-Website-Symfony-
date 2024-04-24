@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Consulter Client
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet"/>
+    <style>
+        .container {
+            background-color: rgb(233, 96, 17);
+        }
+        .btn-outline-info {
+            color: black !important;
+            border-color: black !important;
+            --bs-btn-hover-bg: rgb(233, 96, 17);
+        }
+        a, .page-link {
+            color: grey;
+        }
+        .page-link:hover, .page-link:focus {
+            color: orangered;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 my-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-uppercase mb-0">Manage Users</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table no-wrap user-table mb-0">
+                            <thead>
+                            <tr>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Access Card Id
+                                </th>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Name
+                                </th>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Email
+                                </th>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Details
+                                </th>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Modify
+                                </th>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Delete
+                                </th>
+                            </tr>
+                            </thead>
+
+                            {% for clt in clients %}
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <h1>
+                                            {{ clt.id }}
+                                        </h1>
+                                    </td>
+                                    <td>
+                                        <h5 class="font-medium mb-0">
+                                            {{ clt.name }}
+                                        </h5>
+                                    </td>
+                                    <td>
+                      <span class="text-muted">
+                        {{ clt.email }}
+                      </span><br>
+                                    </td>
+                                    <td>
+                                        <button type="submit"
+                                                class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"
+                                                name="modify"
+                                        >
+                                            <a href="{{ path
+                                                ('app_admin_dashboard_client_id',{
+                                                    'id':clt.id
+                                                }) }}"><i
+                                                        class="fa fa-info"></i></a>
+
+                                        </button>
+
+                                    </td>
+                                    <td>
+                                        <button type="submit"
+                                                class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"
+                                                name="modify">
+                                            <a href="{{ path
+                                                ('app_admin_dashboard_client_id_edit',
+                                                {
+                                                    'id':clt.id
+                                                }
+                                            ) }}">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+
+                                        </button>
+                                        <br>
+                                    </td>
+                                    <td>
+                                        <button type="submit" name="delete"
+                                                class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2">
+                                            <a href="{{ path
+                                                ('app_admin_dashboard_client_id_delete',{
+                                                    'id':clt.id
+                                                }) }}">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+
+                                        </button>
+                                        <br>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="d-flex justify-content-center align-items-center"
+             aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
