@@ -10,14 +10,13 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use  Symfony\Component\Validator\Constraints\Date;
 
 class OffreClientFixture extends Fixture implements FixtureGroupInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $user =$manager->getReference(User::class, 3);
-        $offre=$manager->getReference(offres::class, 1);
+        $user = $manager->getReference(User::class, 3);
+        $offre = $manager->getReference(offres::class, 1);
         $dateDebut = DateTime::createFromFormat('Y-m-d', '2024-04-27');
         $dateFin = DateTime::createFromFormat('Y-m-d', '2024-05-27');
         $oc = new OffreClient();
@@ -31,6 +30,6 @@ class OffreClientFixture extends Fixture implements FixtureGroupInterface
 
     public static function getGroups(): array
     {
-        return ['offreClient'];
+       return ['offreClient'];
     }
 }
