@@ -15,7 +15,7 @@
         body {
             margin: 0;
             padding: 0;
-            /*background-image: url("../img/login/pexels-victor-freitas-703016.jpg");*/
+            background-image: url("{{ asset('assets/images/login/pexels-victor-freitas-703016.jpg') }}");
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -56,7 +56,7 @@
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 centered-section">
                 <div class="welcome-text">Welcome admin</div>
 
-                <button onclick="window.location.href='./clients/client.php'"
+                <button onclick="window.location.href='{{ path('app_admin_dashboard_client') }}'"
                         class="btn py-3 w-100 mb-4 text-dark">Consulter les clients</button>
             </div>
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 centered-section">

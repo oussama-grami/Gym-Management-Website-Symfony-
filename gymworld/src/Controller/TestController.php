@@ -11,10 +11,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TestController extends AbstractController
 {
-    #[Route('/{id}', name: 'app_home')]
-    public function index(User $user=null,UserRepository $repository): Response
+    #[Route('/', name: 'app_home')]
+    public function index(UserRepository $repository): Response
     {
-        dd($repository->findAll());
+        dump($repository->findAll());
         return $this->render('test/index.html.twig');
     }
 
@@ -22,7 +22,7 @@ class TestController extends AbstractController
     #[Route('/services', name: 'app_services')]
     public function services(): Response
     {
-        return $this->render('test/services.html.twig', [
+        return $this->render('MainPages/services.html.twig', [
             'controller_name' => 'TestController',
         ]);
     }
@@ -36,7 +36,7 @@ class TestController extends AbstractController
     #[Route('/timetable', name: 'app_timetable')]
     public function timetable(): Response
     {
-        return $this->render('test/timetable.html.twig', [
+        return $this->render('MainPages/timetable.html.twig', [
             'controller_name' => 'TestController',
         ]);
     }
@@ -73,6 +73,11 @@ class TestController extends AbstractController
          ]);*/
     }
 
+    #[Route('/admin', name: 'app_admin')]
+    public function admin(): Response
+    {
+        return $this->render('MainPages/admin/index.html.twig');
+    }
     #[Route('/admin/dashboard/client', name: 'app_admin_dashboard_client')]
     public function admin_dashboard_client(): Response
     {

@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-lg-3 order-lg-1 col-md-6 p-0">
                 <div class="ss-pic">
-                    <img src="img/services/services-1.jpg" alt="" />
+                    <img src="{{ asset('assets/images/services/services-1.jpg')}}" alt="" />
                 </div>
             </div>
             <div class="col-lg-3 order-lg-2 col-md-6 p-0">
@@ -33,7 +33,7 @@
             </div>
             <div class="col-lg-3 order-lg-3 col-md-6 p-0">
                 <div class="ss-pic">
-                    <img src="img/services/services-2.jpg" alt="" />
+                    <img src="{{ asset('assets/images/services/services-2.jpg')}}" alt="" />
                 </div>
             </div>
             <div class="col-lg-3 order-lg-4 col-md-6 p-0">
@@ -47,7 +47,7 @@
             </div>
             <div class="col-lg-3 order-lg-8 col-md-6 p-0">
                 <div class="ss-pic">
-                    <img src="img/services/services-4.jpg" alt="" />
+                    <img src="{{ asset('assets/images/services/services-4.jpg') }}" alt="" />
                 </div>
             </div>
             <div class="col-lg-3 order-lg-7 col-md-6 p-0">
@@ -58,7 +58,7 @@
             </div>
             <div class="col-lg-3 order-lg-6 col-md-6 p-0">
                 <div class="ss-pic">
-                    <img src="img/services/services-3.jpg" alt="" />
+                    <img src="{{ asset('assets/images/services/services-3.jpg')}}" alt="" />
                 </div>
             </div>
             <div class="col-lg-3 order-lg-5 col-md-6 p-0">
@@ -76,7 +76,7 @@
 <!-- Services Section End -->
 
 <!-- Banner Section Begin -->
-<section class="banner-section set-bg" data-setbg="img/banner-bg.jpg">
+<section class="banner-section set-bg" data-setbg="{{ asset ('assets/images//banner-bg.jpg')}}">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -156,25 +156,25 @@
 <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet" />
 
 <!-- Css Styles -->
-<link rel="stylesheet" href="{{ asset('public/node_modules/bootstrap/dist/css/bootstrap.min.css') }}" type="text/css" />
-<link rel="stylesheet" href="{{ asset('public/node_modules/bootstrap/dist/css/font-awesome.min.css')}}" type="text/css" />
-<link rel="stylesheet" href="{{  asset('public/node_modules/bootstrap/dist/css/flaticon.css')}}" type="text/css" />
-<link rel="stylesheet" href="{{ asset('public/node_modules/bootstrap/dist/css/owl.carousel.min.css')}}" type="text/css" />
-<link rel="stylesheet" href="{{ asset('public/node_modules/bootstrap/dist/css/barfiller.css')}}" type="text/css" />
-<link rel="stylesheet" href="{{  asset('public/node_modules/bootstrap/dist/css/magnific-popup.css')}}" type="text/css" />
-<link rel="stylesheet" href="{{  asset('public/node_modules/bootstrap/dist/css/slicknav.min.css')}}" type="text/css" />
-<link rel="stylesheet" href="{{  asset('public/node_modules/bootstrap/dist/css/style.css')}}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css')}}" type="text/css" />
+<link rel="stylesheet" href="{{  asset('assets/css/flaticon.css')}}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css')}}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('assets/css/barfiller.css')}}" type="text/css" />
+<link rel="stylesheet" href="{{  asset('assets/css/magnific-popup.css')}}" type="text/css" />
+<link rel="stylesheet" href="{{  asset('assets/css/slicknav.min.css')}}" type="text/css" />
+<link rel="stylesheet" href="{{  asset('assets/css/style.css')}}" type="text/css" />
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <!-- Js Plugins -->
-    <script src="{{  asset('public/node_modules/bootstrap/js/dist/jquery-3.3.1.min.js')}}"></script>
-    <script src="{{  asset('public/node_modules/bootstrap/js/dist/bootstrap.min.js')}}"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/masonry.pkgd.min.js"></script>
-    <script src="js/jquery.barfiller.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{{  asset('assets/js/jquery-3.3.1.min.js')}}"></script>
+    <script src="{{  asset('assets/js/bootstrap.min.js')}}"></script>
+    <script src="{{  asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{  asset('assets/js/masonry.pkgd.min.js')}}"></script>
+    <script src="{{  asset('assets/js/jquery.barfiller.js')}}"></script>
+    <script src="{{  asset('assets/js/jquery.slicknav.js')}}"></script>
+    <script src="{{  asset('assets/js/owl.carousel.min.js')}}"></script>
+    <script src="{{  asset('assets/js/main.js')}}"></script>
 {% endblock %}
