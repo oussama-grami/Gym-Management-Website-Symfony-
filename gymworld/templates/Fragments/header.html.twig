@@ -4,27 +4,40 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="logo">
-                    <a href="./user.html">
-                        <img src="img/logo.png" alt="" />
+                    <a href="{{ path('app_home') }}">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="log gym
+                        world"/>
                     </a>
                 </div>
             </div>
             <div class="col-lg-5">
                 <nav class="nav-menu">
                     <ul>
-                        <li><a href=>Home</a></li>
-                        <li></li>
+                        <li><a href="{{ path('app_home') }}">Home</a></li>
+                        {% set currentPage = app.request.get('_route') %}
+                        {% set pages = {
+                            'app_services': 'Services',
+                            'app_team': 'Team',
+                            'app_timetable': 'Timetable',
+                            'app_contact': 'Contact'
+                        } %}
+                        {% for route, label in pages %}
+                            <li class="{% if currentPage==route %}active{% endif %}"><a
+                                        href="{{ path(route) }}">{{ label }}</a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </nav>
             </div>
-            {# partie auth #}
-            {if ()}
-            <div class="button-container col-lg-4 mt-5 mx-auto mt-lg-0 ms-lg-0">
-                <a href="./dashboard/index.php" class="primary-btn">Profile </a>
-                <a href="./login/user/accesscard.php" class="primary-btn">Access Card </a>
-                <a href="./logout/index.php" class="primary-btn">sign out </a>
-            </div>
-            {endif}
+            {% if (5==5) %}
+                <div class="button-container col-lg-4 mt-5 mx-auto mt-lg-0 ms-lg-0">
+                    <a href="{{ path('app_user_dashboard') }}"
+                       class="primary-btn">Profile </a>
+                    <a href="{{ path('app_user_accesscard') }}" class="primary-btn">Access
+                        Card </a>
+                    <a href="{{ path('app_logout') }}" class="primary-btn">sign out </a>
+                </div>
+            {% endif %}
         </div>
         <div class="canvas-open">
             <i class="fa fa-bars"></i>

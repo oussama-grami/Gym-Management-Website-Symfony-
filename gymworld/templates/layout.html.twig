@@ -1,26 +1,13 @@
-<!doctype html>
-<html lang="en" data-bs-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link rel="icon" href="{{ asset('assets/images/img.png') }}">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="A simple gym application made with love
-by insat gl2 students">
-    <meta name="keywords" content="gym, application, insat, gl2, students,symfony 6">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet"
-          href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
-    {% block stylesheets %}
-    {% endblock %}
-    {% block styles %}
-    {% endblock %}
-</head>
-<body>
+{% extends 'base.html.twig' %}
 {% block body %}
+    {% include 'Fragments/preloader.html.twig' %}
+    {% include 'Fragments/offcanvas.html.twig' %}
+    {% include 'Fragments/header.html.twig' %}
+
+    {% block content %}
+        {# mettre ici le contenu de chaque page #}
+    {% endblock %}
+
+
+    {% include 'Fragments/footer.html.twig' %}
 {% endblock %}
-</body>
-{% block javascripts %}
-{% endblock %}
-</html>

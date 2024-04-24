@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Consulter Client
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet"/>
+    .btn-outline-info {
+    color: black !important;
+    border-color: black !important;
+    --bs-btn-hover-bg: rgb(233, 96, 17);
+    }
+
+    .container {
+    background-color: rgb(233, 96, 17);
+    }
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-uppercase mb-0">Manage Users</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table no-wrap user-table mb-0">
+                            <thead>
+                            <tr>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Name
+                                </th>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Phone number
+                                </th>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Email
+                                </th>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Added
+                                </th>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    subscribtion limit
+                                </th>
+                                <th scope="col"
+                                    class="border-0 text-uppercase font-medium">
+                                    Access Card Id
+                                </th>
+
+                            </tr>
+                            </thead>
+
+                            <?php foreach ($clients as $clt): ?>
+                            <tbody>
+
+                            <tr>
+
+                                <td>
+                                    <h5 class="font-medium mb-0">
+                                        <?= $clt->NAME ?>
+                                    </h5>
+                                </td>
+                                <td>
+                      <span class="text-muted">
+                        <?= $clt->PHONE_NUMBER ?>
+                      </span><br>
+                                </td>
+                                <td>
+                      <span class="text-muted">
+                        <?= $clt->EMAIL ?>
+                      </span><br>
+                                </td>
+                                <td>
+
+                      <span class="text-muted">
+                        <?= $clt->DATE_AJOUT ?>
+                      </span><br>
+
+                                </td>
+                                <td>
+
+                      <span class="text-muted">
+                        <?= ($offre->getSubscriptionEndDate($clt->ID))->getData() ?>
+                      </span><br>
+
+                                </td>
+
+                                <td>
+                                    <h1>
+                                        <?= $clt->ID ?>
+                                    </h1>
+                                </td>
+
+
+                            </tr>
+
+
+                            </tbody>
+
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

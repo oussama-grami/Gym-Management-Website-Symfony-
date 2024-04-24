@@ -132,6 +132,13 @@
       <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/twig/extra-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/twig/twig" />
       <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/masterminds/html5" />
+      <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/psr/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/symfony/asset-mapper" />
+      <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/symfony/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/symfony/polyfill-php83" />
+      <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/symfony/stimulus-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/symfony/ux-turbo" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
