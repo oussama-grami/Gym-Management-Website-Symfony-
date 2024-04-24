@@ -11,10 +11,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TestController extends AbstractController
 {
-    #[Route('/{id}', name: 'app_home')]
-    public function index(User $user=null,UserRepository $repository): Response
+    #[Route('/', name: 'app_home')]
+    public function index(User $user = null, UserRepository $repository): Response
     {
-        dd($repository->findAll());
         return $this->render('test/index.html.twig');
     }
 
@@ -104,9 +103,16 @@ class TestController extends AbstractController
                     'id' => 1],
                 8 => ['name' => 'John Doe',
                     'email' => 'test@gmail.com',
-                    'id' => 1], 9 => ['name' => 'John Doe',
+                    'id' => 1],
+                9 => ['name' => 'John Doe',
                     'email' => 'test@gmail.com',
                     'id' => 1]
+                , 10 => ['name' => 'John Doe',
+                    'email' => 'test@gmail.com',
+                    'id' => 1],
+                11 => ['name' => 'John Doe',
+        'email' => 'test@gmail.com',
+        'id' => 1]
 
             ]
         ]);
