@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,6 +41,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $phone_number = null;
+
+    /**
+     * @var Collection<int, OffreClient>
+     */
+    #[ORM\OneToMany(targetEntity: OffreClient::class, mappedBy: 'client')]
+    private Collection $offreClients;
+
+    public function __construct()
+    {
+        $this->offreClients = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -147,6 +160,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoneNumber(?string $phone_number): static
     {
         $this->phone_number = $phone_number;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OffreClient>
+     */
+    public function getOffreClients(): Collection
+    {
+        return $this->offreClients;
+    }
+
+    public function addOffreClient(OffreClient $offreClient): static
+    {
+        if (!$this->offreClients->contains($offreClient)) {
+            $this->offreClients->add($offreClient);
+            $offreClient->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreClient(OffreClient $offreClient): static
+    {
+        if ($this->offreClients->removeElement($offreClient)) {
+            // set the owning side to null (unless already changed)
+            if ($offreClient->getClient() === $this) {
+                $offreClient->setClient(null);
+            }
+        }
 
         return $this;
     }
