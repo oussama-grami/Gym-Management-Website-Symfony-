@@ -147,6 +147,8 @@
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/stimulus-bundle" />
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/polyfill-php83" />
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/ux-turbo" />
+      <path value="$PROJECT_DIR$/gymworld/vendor/doctrine/doctrine-fixtures-bundle" />
+      <path value="$PROJECT_DIR$/gymworld/vendor/doctrine/data-fixtures" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
