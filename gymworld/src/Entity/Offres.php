@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OffresRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,17 @@ class Offres
 
     #[ORM\Column]
     private ?float $price = null;
+
+    /**
+     * @var Collection<int, OffreClient>
+     */
+    #[ORM\OneToMany(targetEntity: OffreClient::class, mappedBy: 'offre')]
+    private Collection $offreClients;
+
+    public function __construct()
+    {
+        $this->offreClients = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +73,36 @@ class Offres
     public function setPrice(float $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OffreClient>
+     */
+    public function getOffreClients(): Collection
+    {
+        return $this->offreClients;
+    }
+
+    public function addOffreClient(OffreClient $offreClient): static
+    {
+        if (!$this->offreClients->contains($offreClient)) {
+            $this->offreClients->add($offreClient);
+            $offreClient->setOffre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreClient(OffreClient $offreClient): static
+    {
+        if ($this->offreClients->removeElement($offreClient)) {
+            // set the owning side to null (unless already changed)
+            if ($offreClient->getOffre() === $this) {
+                $offreClient->setOffre(null);
+            }
+        }
 
         return $this;
     }
