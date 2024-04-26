@@ -2,68 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class TestController extends AbstractController
+class AdminController extends AbstractController
 {
-
-
-
-    #[Route('/contact', name: 'app_contact')]
-    public function contact(): Response
+    #[Route('/admin', name: 'app_admin')]
+    public function admin(): Response
     {
-        return $this->render('MainPages/contact.html.twig');
+        return $this->render('MainPages/admin/index.html.twig');
     }
-    #[route('/home', name: 'app_home') ]
-    public function home(): Response
-    {
-        return $this->render('MainPages/home.html.twig',['controller_name' => 'TestController']);
-    }
-    #[Route('/timetable', name: 'app_timetable')]
-    public function timetable(): Response
-    {
-        return $this->render('test/timetable.html.twig', [
-            'controller_name' => 'TestController',
-        ]);
-    }
-
-    #[Route('/team', name: 'app_team')]
-    public function team(): Response
-    {
-        return $this->render('test/team.html.twig', [
-            'controller_name' => 'TestController',
-        ]);
-    }
-
-    #[Route('/user/dashboard', name: 'app_user_dashboard')]
-    public function dashboard(): Response
-    {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
-    }
-
-    #[Route('/user/accesscard', name: 'app_user_accesscard')]
-    public function accesscard(): Response
-    {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
-    }
-
-    #[Route('/logout', name: 'app_logout')]
-    public function logout(): Response
-    {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
-    }
-
     #[Route('/admin/dashboard/client', name: 'app_admin_dashboard_client')]
     public function admin_dashboard_client(): Response
     {
@@ -132,7 +81,6 @@ class TestController extends AbstractController
             'client' => ['name' => 'John Doe',
                 'email' => '']]);
     }
-}
+
 
 }
-
