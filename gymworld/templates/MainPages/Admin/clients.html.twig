@@ -10,21 +10,30 @@
         .container {
             background-color: rgb(233, 96, 17);
         }
+
         .btn-outline-info {
             color: black !important;
             border-color: black !important;
             --bs-btn-hover-bg: rgb(233, 96, 17);
         }
+
         a, .page-link {
             color: grey;
         }
+
         .page-link:hover, .page-link:focus {
             color: orangered;
+        }
+
+        .active > .page-link, .page-link.active {
+            background-color: darkorange;
+            border-color: darkorange;
         }
     </style>
 {% endblock %}
 {% block body %}
     <div class="container">
+        {{ parent() }}
         <div class="row">
             <div class="col-md-12 my-4">
                 <div class="card">
@@ -135,15 +144,27 @@
              aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                    <a class="page-link {% if nbPageActuelle == 1 %}disabled{% endif %}"
+                       href="{{ path
+                           ('app_admin_dashboard_client_findAll',{
+                               nbPage : nbPageActuelle-1 , nbPers : nbPers
+                           }) }}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                {% for pg in 1..nbTotPages %}
+                    <li class="page-item"><a
+                                class="page-link {% if nbPageActuelle == pg %}
+                 active {% endif %}"
+                                href="{{ path('app_admin_dashboard_client_findAll',{
+                                    nbPage : pg , nbPers : nbPers
+                                }) }}">{{ pg }}</a></li>
+                {% endfor %}
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                    <a class="page-link {% if nbTotPages==nbPageActuelle %} disabled{% endif %}"
+                       href="{{ path('app_admin_dashboard_client_findAll',{
+                           nbPage : nbPageActuelle+1 , nbPers : nbPers
+                       }) }}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

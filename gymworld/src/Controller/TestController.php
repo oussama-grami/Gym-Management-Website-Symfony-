@@ -11,6 +11,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TestController extends AbstractController
 {
-
+    #[Route('/', name: 'app_home')]
+    public function test(): Response
+    {
+        /*return $this->render('MainPages/test/index.html.twig', [
+            'controller_name' => 'TestController',
+        ]);*/
+    }
 
 }

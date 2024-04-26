@@ -50,7 +50,7 @@
                     </tr>
                     <tr>
                         <th>Telephone</th>
-                        <td>{{ client.telephone }}</td>
+                        <td>{{ client.phoneNumber }}</td>
                     </tr>
                     <tr>
                         <th>Email</th>
@@ -60,15 +60,21 @@
                         <th>Subscriptions</th>
                         <td>
                             <ul class="list-group">
-                                {% for subscription in client.subscriptions %}
-                                    <li class="list-group-item">
-                                        <p>
-                                            subscription.name
-                                        </p>
-                                        <p>
-                                            subscription date fin
-                                        </p>
-                                    </li>
+                                {% for subscription in client.offreClients %}
+                                    {# afficher le client seulemnt si la date fin n'est
+                                     pas encore arivée #}
+                                    {% if subscription.DateFin > date() %}
+                                        <li class="list-group-item">
+                                            <p>
+                                                Subscription Name : {{ subscription.offre
+                                                .name }}
+                                            </p>
+                                            <p>
+                                                Ends At : {{ subscription.DateFin | date
+                                                    ('d/m/y') }}
+                                            </p>
+                                        </li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </td>

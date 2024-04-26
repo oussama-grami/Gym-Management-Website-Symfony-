@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,57 +17,35 @@ class AdminController extends AbstractController
     {
         return $this->render('MainPages/admin/index.html.twig');
     }
+
     #[Route('/admin/dashboard/client', name: 'app_admin_dashboard_client')]
     public function admin_dashboard_client(): Response
     {
-        return $this->render('MainPages/Admin/clients.html.twig', [
-            'clients' => [
-                0 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                1 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                2 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1]
-                , 3 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                4 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                5 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                6 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1]
-                , 7 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                8 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1], 9 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1]
+        return $this->forward('App\Controller\AdminController::admin_dashboard_client_findAll');
+    }
 
-            ]
+    #[Route('/admin/dashboard/client/findAll/{nbPage<\d+>}/{nbPers<\d+>}', name: 'app_admin_dashboard_client_findAll')]
+    public function admin_dashboard_client_findAll(UserRepository $userRepository,
+                                                                  $nbPage = 1, $nbPers = 15):
+    Response
+    {
+        $clients = $userRepository->findByExampleField($nbPers, $nbPage);
+        $nbTotdePages = ceil($userRepository->count() / $nbPers);
+        return $this->render('MainPages/Admin/clients.html.twig', [
+            'clients' => $clients,
+            'nbTotPages' => $nbTotdePages,
+            'nbPageActuelle' => $nbPage,
+            'nbPers' => $nbPers
         ]);
     }
 
+
     #[Route('/admin/dashboard/client/{id}', name: 'app_admin_dashboard_client_id')]
-    public function admin_dashboard_client_id($id): Response
+    public function admin_dashboard_client_id(User $client): Response
     {
         return $this->render('MainPages/Admin/detail_client.html.twig', [
-            'client' => ['name' => 'John Doe',
-                'email' => 'test@gmail.com', 'id' => $id, 'telephone' => '123456789',
-                'address' => '1234 rue de paris',
-                'subscriptions' => [
-                    'name' => 'subscription 1',
-                    'date-fin' => '2021-12-12',
-                ]
-            ]]);
+            'client' => $client
+        ]);
     }
 
     #[Route('/admin/dashboard/client/{id}/edit', name: 'app_admin_dashboard_client_id_edit')]
@@ -75,11 +57,15 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/dashboard/client/{id}/delete', name: 'app_admin_dashboard_client_id_delete')]
-    public function admin_dashboard_client_id_delete($id): Response
+    public function admin_dashboard_client_id_delete(User                   $user = null,
+                                                     EntityManagerInterface $registry):
+    Response
     {
-        return $this->render('MainPages/Admin/delete_client.html.twig', [
-            'client' => ['name' => 'John Doe',
-                'email' => '']]);
+        if ($user != null) {
+            $registry->remove($user);
+            $registry->flush();
+        }
+        return $this->redirectToRoute('app_admin_dashboard_client');
     }
 
 
