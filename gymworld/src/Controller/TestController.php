@@ -32,7 +32,11 @@ class TestController extends AbstractController
     {
         return $this->render('MainPages/contact.html.twig');
     }
-
+    #[route('/home', name: 'app_home') ]
+    public function home(): Response
+    {
+        return $this->render('MainPages/home.html.twig',['controller_name' => 'TestController']);
+    }
     #[Route('/timetable', name: 'app_timetable')]
     public function timetable(): Response
     {
