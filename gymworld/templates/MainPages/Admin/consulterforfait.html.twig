@@ -7,13 +7,13 @@
 <div class="list">
     <h2>liste des forfaits</h2>
     <ul class="liste">
-        {% for row in offre %}
-        <li>name :  {{ row.NAME }} <br>
-            id:  {{ row.ID }}
+        {% for row in offres %}
+        <li>name :  {{ row.name }} <br>
+            id:  {{ row.id }}
             <br>
-            duration : {{ row.DURATION }}
+            duration : {{ row.duration }}
             <br>
-            price: {{ row.PRICE }}
+            price: {{ row.price }}
         </li>
         {% endfor %}
     </ul>
