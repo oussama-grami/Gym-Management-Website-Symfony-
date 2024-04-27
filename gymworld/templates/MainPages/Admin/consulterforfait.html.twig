@@ -1,0 +1,32 @@
+{% extends 'layout.html.twig' %}
+{% block title %}
+    Forfaits
+{% endblock %}
+{% block content %}
+    {% include 'Fragments/breadcrumb.html.twig' with {'page_title':'consulterforfait'} %}
+<div class="list">
+    <h2>liste des forfaits</h2>
+    <ul class="liste">
+        {% for row in offre %}
+        <li>name :  {{ row.NAME }} <br>
+            id:  {{ row.ID }}
+            <br>
+            duration : {{ row.DURATION }}
+            <br>
+            price: {{ row.PRICE }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+    // a remplirr apres form : insert-route and delete-route
+    <form method="post" action="{{ path('insert_route') }}" class="add">
+        <input id="in1" name="name" type="text" placeholder="Name"><br>
+        <input id="in2" name="duration" type="text" placeholder="Duration"><br>
+        <input id="in3" name= "price" type="number" placeholder="Price"><br>
+        <button type="submit" >Add</button>
+    </form>
+    <form method="post" action="{{ path('delete_route') }}" class="remove">
+        <input id="rm" name="id" type="text" placeholder="Id of the service to remove"><br>
+        <button  type="submit" id="but">remove</button>
+    </form>
+{% endblock %}

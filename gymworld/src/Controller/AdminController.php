@@ -8,6 +8,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AdminController extends AbstractController
 {
+    #[Route(path: '/admin/dashboard/consulterforfait', name: 'consulterforfait')]
+    public function consulterforfait()
+        {
+            return $this->render('admin/consulterforfait.html.twig');
+        }
     #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
