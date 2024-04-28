@@ -2,11 +2,26 @@
 {% block title %}
     Consulter Client
 {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        a, a:hover, a:active, a:visited, a:link {
+            color: orangered;
+        }
+
+        .dropdown-item:active,
+        .dropdown-item:visited {
+            background-color: orangered;
+            opacity: 50%;
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <div class="container my-4">
         <div class="row">
             <h1 class="col">Consulter Client</h1>
         </div>
+        {{ parent() }}
         <div class="card mb-3 position-relative">
             <div class="dropdown-center position-absolute top-0 end-0">
                 <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -50,7 +65,7 @@
                     </tr>
                     <tr>
                         <th>Telephone</th>
-                        <td>{{ client.telephone }}</td>
+                        <td>{{ client.phoneNumber }}</td>
                     </tr>
                     <tr>
                         <th>Email</th>
@@ -60,15 +75,23 @@
                         <th>Subscriptions</th>
                         <td>
                             <ul class="list-group">
-                                {% for subscription in client.subscriptions %}
-                                    <li class="list-group-item">
-                                        <p>
-                                            subscription.name
-                                        </p>
-                                        <p>
-                                            subscription date fin
-                                        </p>
-                                    </li>
+                                {% for subscription in client.offreClients %}
+                                    {# afficher le client seulemnt si la date fin n'est
+                                     pas encore arivée #}
+                                    {% if subscription.DateFin > date() %}
+                                        <li class="list-group-item">
+                                            {% set dateDebut = subscription.DateDebut %}
+                                            {% set dateFin = subscription.DateFin %}
+                                            {% set dureeTotale = dateDebut.diff(dateFin).days %}
+                                            {% set dureeEcoulee = dateDebut.diff(dateActuelle).days %}
+                                            {% set d = (dureeEcoulee / dureeTotale) * 100 %}
+                                            {% include 'Fragments/progressbar.html.twig'
+                                                with {
+                                                'd': d,
+                                                'offre': subscription
+                                            } %}
+                                        </li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </td>

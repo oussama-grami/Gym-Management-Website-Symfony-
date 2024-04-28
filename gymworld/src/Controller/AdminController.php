@@ -2,84 +2,88 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class AdminController extends AbstractController
 {
+    #[Route(path: '/admin/dashboard/consulterforfait', name: 'consulterforfait')]
+    public function consulterforfait():Response
+        {
+            $offre=new offres();
+            $offres=$offre->findAll();
+            return $this->render('admin/consulterforfait.html.twig',['offres'=>$offres]);
+        }
     #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
         return $this->render('MainPages/admin/index.html.twig');
     }
-    #[Route('/admin/dashboard/client', name: 'app_admin_dashboard_client')]
+
+    #[Route('/admin/dashboard/clients', name: 'app_admin_dashboard_client')]
     public function admin_dashboard_client(): Response
     {
-        return $this->render('MainPages/Admin/clients.html.twig', [
-            'clients' => [
-                0 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                1 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                2 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1]
-                , 3 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                4 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                5 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                6 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1]
-                , 7 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1],
-                8 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1], 9 => ['name' => 'John Doe',
-                    'email' => 'test@gmail.com',
-                    'id' => 1]
+        return $this->forward('App\Controller\AdminController::admin_dashboard_client_findAll');
+    }
 
-            ]
+    #[Route('/admin/dashboard/client/findAll/{nbPers<\d+>}/{nbPage<\d+>}', name: 'app_admin_dashboard_client_findAll')]
+    public function admin_dashboard_client_findAll(UserRepository $userRepository,
+                                                                  $nbPers = 15, $nbPage =
+                                                   1):
+    Response
+    {
+        $clients = $userRepository->findByExampleField($nbPers, $nbPage);
+        $nbTotdePages = ceil($userRepository->count() / $nbPers);
+        return $this->render('MainPages/Admin/clients.html.twig', [
+            'clients' => $clients,
+            'nbTotPages' => $nbTotdePages,
+            'nbPageActuelle' => $nbPage,
+            'nbPers' => $nbPers
         ]);
     }
 
     #[Route('/admin/dashboard/client/{id}', name: 'app_admin_dashboard_client_id')]
-    public function admin_dashboard_client_id($id): Response
+    public function admin_dashboard_client_id($id, User $client = null): Response
     {
+        if ($client == null) {
+            $this->addFlash('error', 'Client avec l\'id ' . $id . ' non trouvé');
+            return $this->redirectToRoute('app_admin_dashboard_client');
+        }
+        $this->addFlash('success', 'Client avec l\'id ' . $id . ' trouvé avec succes');
         return $this->render('MainPages/Admin/detail_client.html.twig', [
-            'client' => ['name' => 'John Doe',
-                'email' => 'test@gmail.com', 'id' => $id, 'telephone' => '123456789',
-                'address' => '1234 rue de paris',
-                'subscriptions' => [
-                    'name' => 'subscription 1',
-                    'date-fin' => '2021-12-12',
-                ]
-            ]]);
+            'client' => $client,
+            'dateActuelle' => new \DateTime()
+        ]);
     }
 
-    #[Route('/admin/dashboard/client/{id}/edit', name: 'app_admin_dashboard_client_id_edit')]
-    public function admin_dashboard_client_id_edit($id): Response
+    #[Route('/admin/dashboard/client/{id?0}/edit', name: 'app_admin_dashboard_client_id_edit')]
+    public function admin_dashboard_client_id_edit($id, User $client = null): Response
     {
-        return $this->render('MainPages/Admin/edit_client.html.twig', [
+        if ($client == null && $id != 0) {
+            $this->addFlash('error', 'Client avec l\'id ' . $id . ' non trouvé');
+            return $this->redirectToRoute('app_admin_dashboard_client');
+        }
+        return $this->render('MainPages/Admin/add_or_edit_client.html.twig', [
             'client' => ['name' => 'John Doe',
                 'email' => '']]);
     }
 
     #[Route('/admin/dashboard/client/{id}/delete', name: 'app_admin_dashboard_client_id_delete')]
-    public function admin_dashboard_client_id_delete($id): Response
+    public function admin_dashboard_client_id_delete($id,
+                                                     EntityManagerInterface $registry, User $user = null): Response
     {
-        return $this->render('MainPages/Admin/delete_client.html.twig', [
-            'client' => ['name' => 'John Doe',
-                'email' => '']]);
+        if ($user != null) {
+            $registry->remove($user);
+            $registry->flush();
+            $this->addFlash('success', 'Client avec l\'id ' . $id . ' supprimé avec succès');
+        } else {
+            $this->addFlash('error', 'Client avec l\'id ' . $id . ' non trouvé');
+        }
+        return $this->redirectToRoute('app_admin_dashboard_client');
     }
 
 

@@ -6,13 +6,10 @@
         <option name="myPath" value="$PROJECT_DIR$" />
       </PhpSpecSuiteConfiguration>
       <PhpSpecSuiteConfiguration>
-        <option name="myPath" value="$PROJECT_DIR$" />
+        <option name="myPath" value="$PROJECT_DIR$/gymworld" />
       </PhpSpecSuiteConfiguration>
       <PhpSpecSuiteConfiguration>
-        <option name="myPath" value="$PROJECT_DIR$" />
-      </PhpSpecSuiteConfiguration>
-      <PhpSpecSuiteConfiguration>
-        <option name="myPath" value="$PROJECT_DIR$" />
+        <option name="myPath" value="$PROJECT_DIR$/gymworld" />
       </PhpSpecSuiteConfiguration>
     </suites>
   </component>

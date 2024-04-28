@@ -13,13 +13,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ClientController extends AbstractController
 {
-    #[Route('/client', name: 'app_home')]
-    public function index(): Response
-    {
-        return $this->render('MainPages/client/index.html.twig', [
-            'controller_name' => 'ClientController',
-        ]);
-    }
+
+
 
     //make routes for pages : services , contact , timetable , team
     #[Route('/services', name: 'app_services')]
@@ -30,6 +25,18 @@ class ClientController extends AbstractController
         return $this->render('MainPages/client/service.html.twig', [
             'services' => $services
         ]);
+    }
+    #[Route(path: '/team', name: 'team')]
+
+
+    public function team(): Response
+    {
+        return $this->render('MainPages/client/team.html.twig', ['controller_name' => 'ClientController']);
+    }
+    #[route('/home', name: 'app_home') ]
+    public function home(): Response
+    {
+        return $this->render('MainPages/client/home.html.twig',['controller_name' => 'ClientController']);
     }
 
     #[Route('/contact', name: 'app_contact')]
@@ -46,13 +53,7 @@ class ClientController extends AbstractController
         ]);
     }
 
-    #[Route('/team', name: 'app_team')]
-    public function team(): Response
-    {
-        return $this->render('test/client/team.html.twig', [
-            'controller_name' => 'TestController',
-        ]);
-    }
+
 
     #[Route('/user/dashboard', name: 'app_user_dashboard')]
     public function dashboard(): Response
