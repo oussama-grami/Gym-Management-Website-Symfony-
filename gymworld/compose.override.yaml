@@ -21,8 +21,8 @@ services:
 ###> blackfireio/blackfire-symfony-meta ###
   blackfire:
     image: blackfire/blackfire:2
-    # uncomment to store Blackfire credentials in a local .env.local file
-    #env_file: .env.local
+    # uncomment to store Blackfire credentials in a local .env.test file
+    #env_file: .env.test
     environment:
       BLACKFIRE_LOG_LEVEL: 4
     ports: ["8307"]

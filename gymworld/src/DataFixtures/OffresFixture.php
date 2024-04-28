@@ -12,13 +12,25 @@ class OffresFixture extends Fixture implements FixtureGroupInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $offre = new Offres();
-        $offre->setName('12 month ');
-        $offre->setDuration(12);
-        $offre->setPrice(59.5);
-        $manager->persist($offre);
+        $offre1= new Offres();
+        $offre1->setName('12 month ');
+        $offre1->setDuration(12);
+        $offre1->setPrice(99.9);
+        $manager->persist($offre1);
+        $this->addReference('offre1', $offre1);
+        $offre2 = new Offres();
+        $offre2->setName('9 month ');
+        $offre2->setDuration(9);
+        $offre2->setPrice(79.9);
+        $manager->persist($offre2);
+        $this->addReference('offre2', $offre2);
+        $offre3 = new Offres();
+        $offre3->setName('3 month ');
+        $offre3->setDuration(3);
+        $offre3->setPrice(49.9);
+        $manager->persist($offre3);
+        $this->addReference('offre3', $offre3);
         $manager->flush();
-        $this->addReference('offre1', $offre);
     }
 
     public static function getGroups(): array
