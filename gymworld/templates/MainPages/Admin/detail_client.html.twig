@@ -80,14 +80,16 @@
                                      pas encore arivée #}
                                     {% if subscription.DateFin > date() %}
                                         <li class="list-group-item">
-                                            <p>
-                                                Subscription Name : {{ subscription.offre
-                                                .name }}
-                                            </p>
-                                            <p>
-                                                Ends At : {{ subscription.DateFin | date
-                                                    ('d/m/y') }}
-                                            </p>
+                                            {% set dateDebut = subscription.DateDebut %}
+                                            {% set dateFin = subscription.DateFin %}
+                                            {% set dureeTotale = dateDebut.diff(dateFin).days %}
+                                            {% set dureeEcoulee = dateDebut.diff(dateActuelle).days %}
+                                            {% set d = (dureeEcoulee / dureeTotale) * 100 %}
+                                            {% include 'Fragments/progressbar.html.twig'
+                                                with {
+                                                'd': d,
+                                                'offre': subscription
+                                            } %}
                                         </li>
                                     {% endif %}
                                 {% endfor %}
