@@ -55,8 +55,7 @@ class AdminController extends AbstractController
         }
         $this->addFlash('success', 'Client avec l\'id ' . $id . ' trouvé avec succes');
         return $this->render('MainPages/Admin/detail_client.html.twig', [
-            'client' => $client,
-            'dateActuelle' => new \DateTime()
+            'client' => $client
         ]);
     }
 
