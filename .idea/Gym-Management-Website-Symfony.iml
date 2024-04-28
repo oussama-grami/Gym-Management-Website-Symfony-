@@ -5,6 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/gymworld/src" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/gymworld/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/gymworld/tests" isTestSource="true" packagePrefix="App\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/blackfire/php-sdk" />
       <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/gymworld/vendor/doctrine/annotations" />

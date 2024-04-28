@@ -11,6 +11,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AdminController extends AbstractController
 {
+    #[Route(path: '/admin/dashboard/consulterforfait', name: 'consulterforfait')]
+    public function consulterforfait():Response
+        {
+            $offre=new offres();
+            $offres=$offre->findAll();
+            return $this->render('admin/consulterforfait.html.twig',['offres'=>$offres]);
+        }
     #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
