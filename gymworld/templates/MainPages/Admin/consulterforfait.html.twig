@@ -1,9 +1,8 @@
-{% extends 'layout.html.twig' %}
+{% extends 'base.html.twig' %}
 {% block title %}
     Forfaits
 {% endblock %}
-{% block content %}
-    {% include 'Fragments/breadcrumb.html.twig' with {'page_title':'consulterforfait'} %}
+{% block body %}
 <div class="list">
     <h2>liste des forfaits</h2>
     <ul class="liste">
@@ -19,14 +18,149 @@
     </ul>
 </div>
     // a remplirr apres form : insert-route and delete-route
-    <form method="post" action="{{ path('insert_route') }}" class="add">
+    <form method="post" action="#" class="add">
         <input id="in1" name="name" type="text" placeholder="Name"><br>
         <input id="in2" name="duration" type="text" placeholder="Duration"><br>
         <input id="in3" name= "price" type="number" placeholder="Price"><br>
         <button type="submit" >Add</button>
     </form>
-    <form method="post" action="{{ path('delete_route') }}" class="remove">
+    <form method="post" action="#" class="remove">
         <input id="rm" name="id" type="text" placeholder="Id of the service to remove"><br>
         <button  type="submit" id="but">remove</button>
     </form>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body {
+
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            min-height: 100vh;
+        }
+        .list {
+            position: center;
+            /*width: 20%;*/
+            margin-left: 100px;
+            margin-top: 100px;
+            height:0%;
+
+        }
+        .list h2 {
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-size: 50px;
+        }
+        .list ul {
+            position: relative;
+
+        }
+        .list ul li {
+            position: relative;
+            left: 0;
+            color: #fce4ec;
+            list-style: none;
+            margin: 4px 0;
+            border-left: 2px solid #f54a00;
+            transition: 0.5s;
+            cursor: pointer;
+            font-size: 1vw;
+            margin: 2vh 0;
+        }
+        .list ul li:hover {
+            left: 10px;
+        }
+        .list ul li span {
+            position: relative;
+            padding: 8px;
+            padding-left: 12px;
+            display: inline-block;
+            z-index: 1;
+            transition: 0.5s;
+        }
+        .list ul li:hover span {
+            color: #111;
+        }
+        .list ul li:before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #6f2606;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: 0.5s;
+        }
+        .list ul li:hover:before {
+            transform: scaleX(1);
+        }
+        button {
+            position: relative;
+            border: 2px solid #f36100;
+            color: white;
+            background-color: #f36100;
+            size: 50px;
+            margin-left: 50px;
+            padding: 10px;
+            margin-top: 30px;
+        }
+        .add{
+            position: center;
+            width: 50%;
+            margin-left: 100px;
+
+
+        }
+        .remove{
+            position: center;
+            width: 50%;
+            margin-left: 100px;
+        }
+        input{
+            size: 50px;
+            margin:10px;
+            height: 30px;
+            width: 300px;;
+        }
+    </style>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var bouton = document.querySelector("button");
+
+            bouton.addEventListener('click', () => {
+                var input1 = document.querySelector('#in1');
+                var input2 = document.querySelector('#in2');
+                var input3 = document.querySelector('#in3');
+
+                var p1 = document.createElement('p');
+                p1.textContent = input1.value;
+
+                var p2 = document.createElement('p');
+                p2.textContent = input2.value;
+
+                var p3 = document.createElement('p');
+                p3.textContent = input3.value + 'dt';
+
+                var liste = document.querySelector(".liste");
+                var nouv = document.createElement('li');
+                nouv.appendChild(p1);
+                nouv.appendChild(p2);
+                nouv.appendChild(p3);
+                liste.appendChild(nouv);
+            });
+
+        });
+
+    </script>
 {% endblock %}

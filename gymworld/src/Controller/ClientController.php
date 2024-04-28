@@ -85,7 +85,7 @@ class ClientController extends AbstractController
              'controller_name' => 'TestController',
          ]);*/
     }
-    #[Route('/logout', name: 'app_signup')]
+    #[Route('/signup', name: 'app_signup')]
     public function signup(): Response
     {
         /* return $this->render('test/about.html.twig', [
