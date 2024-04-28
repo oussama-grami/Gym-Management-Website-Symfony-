@@ -105,24 +105,17 @@
 
 
         <div class="row justify-content-center">
-            <?php
 
-        include_once 'utilities/autoloader.php';
-        $offre_class = new Offre();
-        $offre_rows = ($offre_class->findAll())->getData();
-            foreach ($offre_rows as $offre_row) {
-            ?>
-
+        {% for service in services %}
             <div class="col-lg-4 col-md-8">
                 <div class="ps-item">
                     <h3>
-                        <?php print ($offre_row->NAME) ?>
+                        {{service.name }}
                     </h3>
                     <div class="pi-price">
                         <h2>TND
-                            <?php print ($offre_row->PRICE) ?>.0
+                            {{ service.price }}
                         </h2>
-
                     </div>
                     <ul>
                         <li>Free riding</li>
@@ -134,19 +127,19 @@
                         <li>Cardio kickboxing</li>
                     </ul>
 
-                    <form action="payment.php" method="post">
+                    <form action="#" method="post">
                         <input type="hidden" name="offreDuration" value='.'>
                         <input type="hidden" name="offreID" value=''>
                         <input type="hidden" name="offre" value=''>
                         <input type="hidden" name="price" value=''>
                         <input class="btn btn-warning" type="submit" value="Enroll now" name="submit">
                     </form>
-
                 </div>
             </div>
+        {% endfor %}
         </div>
 
-        </div>
+    </div>
 </section>
 <!-- Pricing Section End -->
 {% endblock %}

@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Offres;
+use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use http\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -11,12 +15,15 @@ class ClientController extends AbstractController
 {
 
 
+
     //make routes for pages : services , contact , timetable , team
     #[Route('/services', name: 'app_services')]
-    public function services(): Response
+    public function services(ManagerRegistry $doctrine): Response
     {
-        return $this->render('MainPages/client/services.html.twig', [
-            'controller_name' => 'TestController',
+        $repository= $doctrine->getRepository(Offres::class);
+        $services= $repository->findAll();
+        return $this->render('MainPages/client/service.html.twig', [
+            'services' => $services
         ]);
     }
     #[Route(path: '/team', name: 'team')]

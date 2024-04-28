@@ -17,15 +17,7 @@ class UserFixture extends Fixture implements FixtureGroupInterface
     }
     public function load(ObjectManager $manager): void
     {
-        /*$admin1 = new User();
-        $admin1->setUsername('admin');
-        $admin1->setPassword(password_hash('admin', PASSWORD_DEFAULT));
-        $admin1->setRoles(["ROLE_ADMIN"]);
-        $admin1->setEmail('admin@admin.com');
-        $admin1->setName("oussama");
-        $manager->persist($admin1);
-        $manager->flush();
-        $this->addReference('admin1', $admin1);*/
+      
         $faker = Factory::create();
         for ($i=0;$i<100;$i++)
         {

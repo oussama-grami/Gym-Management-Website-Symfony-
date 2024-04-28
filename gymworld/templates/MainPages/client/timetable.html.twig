@@ -57,10 +57,10 @@
     document.addEventListener("DOMContentLoaded", function () {
         const timetableImages = document.getElementById("timetable-images");
         const filters = {
-            all: "{{ asset('image.php?image=emploi1.png') }}",
-            fitness: "image.php?image=emploi2.png",
-            motivation: "image.php?image=emploi3.png",
-            workout: "image.php?image=emploi4.png",
+            all: "{{ asset('uploads/emploi1.png') }}",
+            fitness:"{{ asset('uploads/emploi2.png') }}",
+            motivation:"{{ asset('uploads/emploi3.png') }}",
+            workout: "{{ asset('uploads/emploi4.png') }}"
         };
 
         function updateTimetableImages(filter) {
