@@ -26,7 +26,7 @@ class ClientController extends AbstractController
             'services' => $services
         ]);
     }
-    #[Route(path: '/team', name: 'team')]
+    #[Route(path: '/team', name: 'app_team')]
 
 
     public function team(): Response
@@ -70,7 +70,17 @@ class ClientController extends AbstractController
              'controller_name' => 'TestController',
          ]);*/
     }
+    #[Route('/login', name: 'app_login')]
+    public function login(): Response
+    {
+        #return $this->render('MainPages/client/login.html.twig');
+    }
+    #[Route('/signup', name: 'app_signup')]
+    public function signup(): Response
+    {
+        return $this->render('MainPages/client/signup.html.twig');
 
+    }
     #[Route('/logout', name: 'app_logout')]
     public function logout(): Response
     {

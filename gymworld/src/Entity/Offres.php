@@ -106,4 +106,11 @@ class Offres
 
         return $this;
     }
+
+    public function findAll()
+    {
+
+    }
+
+
 }
