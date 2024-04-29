@@ -3,10 +3,6 @@
 {% block title %}Power Gym{% endblock %}
 
 {% block content %}
-
-    {% include 'Fragments/breadcrumb.html.twig' with {'page_title':'home'} %}
-
-
     <!-- Hero Section Begin -->
     <section class="hero-section">
         <div class="hs-slider owl-carousel">
@@ -17,7 +13,8 @@
                             <div class="hi-text">
                                 <span>Shape your body</span>
                                 <h1>Be <strong>strong</strong> training hard</h1>
-                                <a href="{{ path('app_login') }}" class="primary-btn">Sign In</a>
+                                <a href="{{ path('app_admin_login') }}" class="primary-btn">Sign
+                                    In</a>
                                 <a href="{{ path('app_signup') }}" class="primary-btn">Sign Up</a>
                             </div>
                         </div>
@@ -316,7 +313,6 @@
     {% endblock %}
 
     {% block javascripts %}
-        {{ parent() }}
         <!-- Js Plugins -->
         <script src="{{  asset('assets/js/jquery-3.3.1.min.js')}}"></script>
         <script src="{{  asset('assets/js/bootstrap.min.js')}}"></script>

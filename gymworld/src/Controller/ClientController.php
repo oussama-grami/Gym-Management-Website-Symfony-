@@ -10,33 +10,32 @@ use http\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_USER')]
 class ClientController extends AbstractController
 {
-
-
-
     //make routes for pages : services , contact , timetable , team
     #[Route('/services', name: 'app_services')]
     public function services(ManagerRegistry $doctrine): Response
     {
-        $repository= $doctrine->getRepository(Offres::class);
-        $services= $repository->findAll();
+        $repository = $doctrine->getRepository(Offres::class);
+        $services = $repository->findAll();
         return $this->render('MainPages/client/service.html.twig', [
             'services' => $services
         ]);
     }
-    #[Route(path: '/team', name: 'team')]
 
-
+    #[Route(path: '/team', name: 'app_team')]
     public function team(): Response
     {
         return $this->render('MainPages/client/team.html.twig', ['controller_name' => 'ClientController']);
     }
-    #[route('/home', name: 'app_home') ]
+
+    #[route('/', name: 'app_home')]
     public function home(): Response
     {
-        return $this->render('MainPages/client/home.html.twig',['controller_name' => 'ClientController']);
+        return $this->render('MainPages/client/home.html.twig', ['controller_name' => 'ClientController']);
     }
 
     #[Route('/contact', name: 'app_contact')]
@@ -45,15 +44,13 @@ class ClientController extends AbstractController
         return $this->render('MainPages/client/contact.html.twig');
     }
 
-    #[Route('/timetable', name: 'app_timetable')]
-    public function timetable(): Response
+    #[Route('/timetable/{num<\d+>?1}', name: 'app_timetable')]
+    public function timetable($num): Response
     {
         return $this->render('MainPages/client/timetable.html.twig', [
-            'controller_name' => 'TestController',
+            'num' => $num
         ]);
     }
-
-
 
     #[Route('/user/dashboard', name: 'app_user_dashboard')]
     public function dashboard(): Response

@@ -8,16 +8,19 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
     #[Route(path: '/admin/dashboard/consulterforfait', name: 'consulterforfait')]
-    public function consulterforfait():Response
-        {
-            $offre=new offres();
-            $offres=$offre->findAll();
-            return $this->render('admin/consulterforfait.html.twig',['offres'=>$offres]);
-        }
+    public function consulterforfait(): Response
+    {
+        $offre = new offres();
+        $offres = $offre->findAll();
+        return $this->render('admin/consulterforfait.html.twig', ['offres' => $offres]);
+    }
+
     #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
