@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Offres;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,19 +16,22 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AdminController extends AbstractController
 {
     #[Route(path: '/admin/dashboard/consulterforfait', name: 'consulterforfait')]
-    public function consulterforfait(): Response
-    {
-        $offre = new offres();
-        $offres = $offre->findAll();
-        return $this->render('admin/consulterforfait.html.twig', ['offres' => $offres]);
-    }
-
+    public function consulterforfait(ManagerRegistry $doctrine):Response
+        {
+            $repository= $doctrine->getRepository(Offres::class);
+            $offres= $repository->findAll();
+            return $this->render('MainPages/admin/consulterforfait.html.twig',['offres'=>$offres]);
+        }
     #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
         return $this->render('MainPages/admin/index.html.twig');
     }
-
+    #[Route('/admin/dashboard/horaire', name: 'consulterhoraire')]
+    public function horaire(): Response
+    {
+        return $this->render('MainPages/admin/consulterhoraire.html.twig');
+    }
     #[Route('/admin/dashboard/clients', name: 'app_admin_dashboard_client')]
     public function admin_dashboard_client(): Response
     {
@@ -89,5 +94,11 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_dashboard_client');
     }
 
-
+    #[Route('/logout', name: 'app_logout')]
+    public function logout(): Response
+    {
+        /* return $this->render('test/about.html.twig', [
+             'controller_name' => 'TestController',
+         ]);*/
+    }
 }
