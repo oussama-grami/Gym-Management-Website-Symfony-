@@ -56,6 +56,10 @@
                                     </th>
                                     <th scope="col"
                                         class="border-0 text-uppercase font-medium">
+                                        UserName
+                                    </th>
+                                    <th scope="col"
+                                        class="border-0 text-uppercase font-medium">
                                         Email
                                     </th>
                                     <th scope="col"
@@ -87,6 +91,11 @@
                                             </h5>
                                         </td>
                                         <td>
+                                            <h5 class="font-medium mb-0">
+                                                {{ clt.username }}
+                                            </h5>
+                                        </td>
+                                        <td>
                       <span class="text-muted">
                         {{ clt.email }}
                       </span><br>
@@ -110,7 +119,7 @@
                                                     class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"
                                                     name="modify">
                                                 <a href="{{ path
-                                                    ('app_admin_dashboard_client_id_edit',
+                                                    ('app_admin_dashboard_edit',
                                                     {
                                                         'id':clt.id
                                                     }
@@ -176,7 +185,7 @@
                 </nav>
 
                 <button class="btn btn-dark mt-0"><a
-                            href="{{ path('app_admin_dashboard_client_id_edit') }}"
+                            href="{{ path('app_admin_dashboard_add') }}"
                             class="btn-info">
                         Add
                         Client</a></button>
