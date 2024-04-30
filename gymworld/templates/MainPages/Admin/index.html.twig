@@ -60,16 +60,16 @@
                         class="btn py-3 w-100 mb-4 text-dark">Consulter les clients</button>
             </div>
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 centered-section">
-                <button onclick="window.location.href='./maj_planning.php'"
+                <button onclick="window.location.href='{{ path('consulterhoraire') }}'"
                         class="btn py-3 w-100 mb-4 text-dark">Consulter les horaires</button>
             </div>
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 centered-section">
-                <button onclick="window.location.href='./majforfait.php'"
+                <button onclick="window.location.href='{{ path('consulterforfait') }}'"
                         class="btn py-3 w-100 mb-4 text-dark">Consulter les forfaits</button>
             </div>
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 centered-section">
-                <button onclick="window.location.href='../logout/index.php'" class="btn py-3 w-100 mb-4 text-dark">Log
-                    out</button>
+
+                <button onclick="window.location.href='{{ path('app_logout') }}" class="btn py-3 w-100 mb-4 text-dark">Logout</button>
             </div>
         </div>
     </div>
