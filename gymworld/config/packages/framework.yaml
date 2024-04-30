@@ -18,7 +18,10 @@ framework:
     php_errors:
         log: true
 
-    assets:
+
+
+    #assets:
+
     #base_path: '%kernel.project_dir%/public'
 
 

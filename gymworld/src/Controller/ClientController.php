@@ -22,6 +22,7 @@ class ClientController extends AbstractController
 {
 
 
+
     #[Route('/success', name: 'success')]
     public function success(): Response
     {
@@ -81,6 +82,8 @@ class ClientController extends AbstractController
         return $this->render('MainPages/client/error.html.twig');
     }
 
+
+
     //make routes for pages : services , contact , timetable , team
     #[Route('/services', name: 'app_services')]
     public function services(ManagerRegistry $doctrine): Response
@@ -92,7 +95,6 @@ class ClientController extends AbstractController
         ]);
     }
     #[Route(path: '/team', name: 'app_team')]
-
 
     public function team(): Response
     {
@@ -148,6 +150,20 @@ class ClientController extends AbstractController
     }
     #[Route('/logout', name: 'app_logout')]
     public function logout(): Response
+    {
+        /* return $this->render('test/about.html.twig', [
+             'controller_name' => 'TestController',
+         ]);*/
+    }
+    #[Route('/logout', name: 'app_login')]
+    public function login(): Response
+    {
+        /* return $this->render('test/about.html.twig', [
+             'controller_name' => 'TestController',
+         ]);*/
+    }
+    #[Route('/signup', name: 'app_signup')]
+    public function signup(): Response
     {
         /* return $this->render('test/about.html.twig', [
              'controller_name' => 'TestController',
