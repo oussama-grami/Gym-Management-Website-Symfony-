@@ -4,8 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Offres;
 use App\Entity\User;
+use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use http\Client\Request;
+use phpDocumentor\Reflection\Types\False_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -28,6 +32,8 @@ class AdminController extends AbstractController
     #[Route('/admin/dashboard/clients', name: 'app_admin_dashboard_client')]
     public function admin_dashboard_client(): Response
     {
+
+
         return $this->forward('App\Controller\AdminController::admin_dashboard_client_findAll');
     }
 
@@ -46,7 +52,64 @@ class AdminController extends AbstractController
             'nbPers' => $nbPers
         ]);
     }
+    #[Route('/admin/dashboard/add',name: 'app_admin_dashboard_add')]
+    public function admin_dashboard_add(ManagerRegistry $doctrine,\Symfony\Component\HttpFoundation\Request $request):Response
+    {
 
+        $user=new User();
+        $form=$this->createForm(UserType::class,$user);
+        $form->handleRequest($request);
+        try {
+            if ($form->isSubmitted()) {
+                $manager = $doctrine->getManager();
+                $manager->persist($user);
+                $manager->flush();
+                $this->addFlash('success', $user->getName() . "a ete ajoute avec succes");
+                return $this->redirectToRoute('app_admin_dashboard_client_findAll');
+            } else {
+                return $this->render('MainPages/Admin/add_or_edit_client.html.twig', ['form' => $form->createView()]);
+            }
+        }catch (\Exception $e){
+            $this->addFlash('error', "Une erreur s'est produite , veuillez reessayez .");
+            return $this->redirectToRoute('app_admin_dashboard_client_findAll');
+        }
+
+    }
+    #[Route('/admin/dashboard/edit/{id?0}',name: 'app_admin_dashboard_edit')]
+    public function admin_dashboard_edit(User $user=null,ManagerRegistry $doctrine,\Symfony\Component\HttpFoundation\Request $request):Response
+    {
+        $new=false;
+        if(
+            !$user
+        )
+        {
+            $new=true;
+            $user=new User();
+        }
+
+
+        $form=$this->createForm(UserType::class,$user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() ){
+            $manager=$doctrine->getManager();
+            $manager->persist($user);
+            $manager->flush();
+
+            if($new)
+            {
+                $msg="a ete ajoute avec succes";
+            }
+            else{
+                $msg="a ete edite avec succes";
+            }
+            $this->addFlash('success',$user->getName().$msg);
+            return  $this->redirectToRoute('app_admin_dashboard_client_findAll');
+        }else{
+            return $this->render('MainPages/Admin/add_or_edit_client.html.twig',['form'=>$form->createView()]);
+        }
+
+
+    }
     #[Route('/admin/dashboard/client/{id}', name: 'app_admin_dashboard_client_id')]
     public function admin_dashboard_client_id($id, User $client = null): Response
     {

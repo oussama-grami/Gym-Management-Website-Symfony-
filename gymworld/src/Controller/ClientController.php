@@ -21,6 +21,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class ClientController extends AbstractController
 {
 
+
     #[Route('/success', name: 'success')]
     public function success(): Response
     {
