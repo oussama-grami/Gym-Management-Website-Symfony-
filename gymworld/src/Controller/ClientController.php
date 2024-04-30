@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_USER')]
+/*#[IsGranted('ROLE_USER')]*/
 class ClientController extends AbstractController
 {
     //make routes for pages : services , contact , timetable , team
