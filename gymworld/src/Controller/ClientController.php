@@ -4,17 +4,21 @@ namespace App\Controller;
 
 use App\Entity\Offres;
 use App\Entity\User;
+use App\Form\MailerFormType;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use http\Client;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
 class ClientController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(): Response
+    public function home(): Response
     {
     return $this->render('MainPages/client/home.html.twig');
     }
@@ -33,17 +37,30 @@ class ClientController extends AbstractController
     {
         return $this->render('MainPages/client/team.html.twig', ['controller_name' => 'ClientController']);
     }
-    #[route('/home', name: 'app_home') ]
-    public function home(): Response
-    {
-        return $this->render('MainPages/client/home.html.twig',['controller_name' => 'ClientController']);
-    }
+
 
     #[Route('/contact', name: 'app_contact')]
-    public function contact(): Response
-    {
-        return $this->render('MainPages/client/contact.html.twig');
+    public function contact(Request $request, MailerInterface $mailer): Response{
+     $form = $this->createForm(MailerFormType::class);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $data = $form->getData();
+
+        $email = (new Email())
+            ->to('gymworld135@gmail.com')
+            ->from('gymworld135@gmail.com')
+            ->subject($data['subject'])
+            ->text($data['from']." ".$data['message']);
+            $mailer->send($email);
+
+        $this->addFlash('success', 'Email sent successfully!');
+        // Redirect or render a success page
     }
+
+return $this->render('MainPages/client/contact.html.twig', [
+    'form' => $form->createView(),
+]); }
 
     #[Route('/timetable', name: 'app_timetable')]
     public function timetable(): Response
