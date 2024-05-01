@@ -6,11 +6,15 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username', 'email', 'phone_number'])]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+#[UniqueEntity(fields: ['phone_number'], message: 'There is already an account with this phone')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -48,6 +52,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: OffreClient::class, mappedBy: 'client')]
     private Collection $offreClients;
 
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
     public function __construct()
     {
         $this->offreClients = new ArrayCollection();
@@ -77,20 +84,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->username;
+        return $this->email??$this->getUsername();
     }
 
     /**
+     * @return list<string>
      * @see UserInterface
      *
-     * @return list<string>
      */
     public function getRoles(): array
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
+        if (empty($roles)) $roles[] = 'ROLE_USER';
         return array_unique($roles);
     }
 
@@ -190,6 +196,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $offreClient->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

@@ -114,4 +114,8 @@ class Offres
 
         return $this;
     }
+
+
+
+
 }

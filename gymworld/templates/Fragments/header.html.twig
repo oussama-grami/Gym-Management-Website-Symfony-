@@ -29,8 +29,7 @@
                     </ul>
                 </nav>
             </div>
-            {# TODO : user auth condition #}
-            {% if (5==5) %}
+            {% if app.user and 'ROLE_USER' in app.user.roles %}
                 <div class="button-container col-lg-4 mt-5 mx-auto mt-lg-0 ms-lg-0">
                     <a href="{{ path('app_user_dashboard') }}"
                        class="primary-btn">Profile </a>

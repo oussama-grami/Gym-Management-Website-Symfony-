@@ -30,6 +30,13 @@ class UserFixture extends Fixture implements FixtureGroupInterface
                 .$i);
             $manager->persist($client);
         }
+        $admin = new User();
+        $admin->setUsername('admin');
+        $admin->setName('admin');
+        $admin->setPassword($this->hasher->hashPassword($admin,'admin'));
+        $admin->setVerified(true);
+        $admin->setRoles(['ROLE_ADMIN']);
+        $manager->persist($admin);
         $manager->flush();
     }
 
