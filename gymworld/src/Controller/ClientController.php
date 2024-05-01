@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use http\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -113,13 +115,13 @@ class ClientController extends AbstractController
     }
 
     #[Route('/timetable/{num<\d+>?1}', name: 'app_timetable')]
-    public function timetable($num): Response
+    public function timetable($num ,Request $request): Response
     {
-        
+
         $response =$this->render('MainPages/client/timetable.html.twig',[
             'num'=>$num
         ]);
-        $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate'); // Pour HTTP 1.1
+        $response->headers->set('Cache-Control', 'max-age=1, must-revalidate');
         $response->headers->set('Pragma', 'no-cache'); // Pour HTTP 1.0
         $response->headers->set('Expires', '0'); // Pour les proxies
         return $response;
