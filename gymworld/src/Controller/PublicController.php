@@ -49,6 +49,9 @@ class PublicController extends AbstractController
                 $response->headers->set('Content-Disposition', 'attachment; filename="details.pdf"');
                 return $response;
 
+
+
+
         }
 
         }

@@ -115,9 +115,14 @@ class ClientController extends AbstractController
     #[Route('/timetable/{num<\d+>?1}', name: 'app_timetable')]
     public function timetable($num): Response
     {
-        return $this->render('MainPages/client/timetable.html.twig', [
-            'num' => $num
+        
+        $response =$this->render('MainPages/client/timetable.html.twig',[
+            'num'=>$num
         ]);
+        $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate'); // Pour HTTP 1.1
+        $response->headers->set('Pragma', 'no-cache'); // Pour HTTP 1.0
+        $response->headers->set('Expires', '0'); // Pour les proxies
+        return $response;
     }
 
     #[Route('/user/dashboard', name: 'app_user_dashboard')]
