@@ -57,6 +57,20 @@
                                                 Sign in
                                             </button>
                                         </div>
+                                        <p class="text-center"
+                                           style="margin-top: 1rem; margin-bottom: -5px">
+                                            Not yet a member ?
+                                            <a href="{{ path('app_register') }}"
+                                               style="text-decoration: none; color: orangered">Sign
+                                                Up</a>
+                                        </p>
+                                        <p class="text-center"
+                                           style="margin-top: 1rem; margin-bottom: -5px">
+                                            Did you forget your password ?
+                                            <a href="{{ path('app_forgot_password_request') }}"
+                                               style="text-decoration: none; color:
+                                               orangered">Reset it</a>
+                                        </p>
                                     {% endif %}
                                 </form>
                             </div>
@@ -81,7 +95,7 @@
             accent-color: orangered;
         }
 
-        .form-control:focus{
+        .form-control:focus {
             border-color: orangered;
             box-shadow: 0 0 0 0.2rem rgba(255, 69, 0, 0.25);
         }

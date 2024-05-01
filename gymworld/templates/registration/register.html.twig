@@ -8,7 +8,7 @@
             style="
                     background-image: url('{{ asset('assets/images/login/pexels-pixabay-260352.jpg') }}');
                     background-size: cover;
-                    height: 125vh;
+                    height: 120vh;
                     "
     >
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -18,7 +18,7 @@
                 >
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
                         <div class="card" style="border-radius: 15px">
-                            <div class="card-body px-5 py-3">
+                            <div class="card-body py-3 px-md-5">
                                 <h2 class="text-uppercase text-center mb-3">
                                     Create an account
                                 </h2>
@@ -27,7 +27,6 @@
                                          role="alert">{{ flash_error }}</div>
                                 {% endfor %}
                                 {{ form_errors(registrationForm) }}
-
                                 {{ form_start(registrationForm) }}
                                 {{ form_row(registrationForm.name) }}
                                 {{ form_row(registrationForm.email) }}
@@ -35,6 +34,12 @@
                                 {{ form_row(registrationForm.plainPassword) }}
                                 {{ form_row(registrationForm.agreeTerms) }}
                                 <div class="col d-flex justify-content-center">{{ form_row(registrationForm.Submit) }}</div>
+                                <p class="text-center"
+                                   style="margin-top: 1rem; margin-bottom: -5px">
+                                    Already have an Account?
+                                    <a style="text-decoration: none; color: orangered"
+                                       href="{{ path('app_login_user') }}">Sign In</a>
+                                </p>
                                 {{ form_rest(registrationForm) }}
                             </div>
                         </div>
@@ -80,20 +85,28 @@
                 color: white;
             }
         }
-        .form-control.is-invalid {
-            margin-bottom: 0!important;
-        }
-        .mb-3
-        {
-            padding-bottom: 1.5rem;
-        }
-        .invalid-feedback {
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            max-width: 100%!important;
-        }
-        .form-control {
-            overflow : auto;
-        }
+
     </style>
+{% endblock %}
+{% block javascripts %}
+    <script>window.onload = function () {
+            var divs = document.querySelectorAll('.invalid-feedback.d-block');
+
+            for (var i = 0; i < divs.length; i++) {
+                divs[i].setAttribute('style', 'max-width: 90% !important;');
+                var content = divs[i].innerHTML;
+                divs[i].innerHTML = '<p>' + content + '</p>';
+            }
+            var divs = document.querySelectorAll('.mb-3');
+
+            for (var i = 1; i < divs.length; i++) {
+                var previousDiv = divs[i - 1];
+                var invalidFeedback = previousDiv.querySelector('.invalid-feedback.d-block');
+
+                if (invalidFeedback) {
+                    divs[i].setAttribute('style', 'padding-top: 2.5rem;');
+                }
+            }
+        };
+    </script>
 {% endblock %}

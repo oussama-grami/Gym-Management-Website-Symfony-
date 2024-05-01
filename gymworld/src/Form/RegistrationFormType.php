@@ -32,16 +32,17 @@ class RegistrationFormType extends AbstractType
                 'first_options' => ['label' => 'Password',
                     'mapped' => false,
                     'attr' => ['autocomplete' => 'new-password'],
-                    'constraints' => [new NotBlank(['message' => 'Please enter a password',]),
+                    'constraints' => [
+                        new NotBlank(['message' => 'Please enter a password',]),
                         new Length(['min' => 6,
                             'minMessage' => 'Your password should be at least {{ limit }} characters',
                             // max length allowed by Symfony for security reasons
                             'max' => 4096,]),
-                        new Regex('/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/', "Password must contain one uppercase letter, one lowercase letter, and one number")
+                        new Regex('/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/', "Password must contain 1 uppercase letter,1 lowercase and 1 number")
                     ]
 
                 ],
-                'second_options' => ['label' => 'Repeat Password',
+                'second_options' => ['label' => 'Confirm Password',
                     'mapped' => false
                 ],
             ])

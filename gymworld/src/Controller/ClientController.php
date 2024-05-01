@@ -14,29 +14,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /*#[IsGranted('ROLE_USER')]*/
+
 class ClientController extends AbstractController
 {
-
-
-
     #[Route('/success', name: 'success')]
     public function success(): Response
     {
         return $this->render('MainPages/client/paysuccess.html.twig');
     }
+
     #[Route(path: '/payment', name: 'app_pay')]
-    public function pay(SessionInterface $session,EntityManagerInterface $manager): Response
+    public function pay(SessionInterface $session, EntityManagerInterface $manager): Response
     {
         $offreID = $session->get('offreID');
         $offreDuration = $session->get('offreDuration');
         if (!$this->getUser()) {
-          return new RedirectResponse($this->generateUrl('app_login'));
+            return new RedirectResponse($this->generateUrl('app_login'));
         }
 
         $stripe_secret_key = 'sk_test_51OyjfCLP09EeDvhaQKed2zemxoS5nkUOnsy22lqz52tXfxWCrs7sUIMxDGLIyWyoqCXY9vfjkS44Yhkqb0eeBCNq00ksDn2Xnc';
@@ -59,14 +57,14 @@ class ClientController extends AbstractController
                     ]
                 ]
             ]);
-            $offreclient=new OffreClient();
-            $offre=$manager->getRepository(Offres::class)->find($offreID);
-            $client=$manager->getRepository(User::class)->find($this->getUser()->getId());
+            $offreclient = new OffreClient();
+            $offre = $manager->getRepository(Offres::class)->find($offreID);
+            $client = $manager->getRepository(User::class)->find($this->getUser()->getId());
             $offreclient->setClient($client);
             $offreclient->setOffre($offre);
-            $date=new \DateTime();
+            $date = new \DateTime();
             $offreclient->setDateDebut($date);
-            $offreclient->setDateFin($date+$offreDuration);
+            $offreclient->setDateFin($date + $offreDuration);
             $manager->persist($offreclient);
             $manager->flush();
 
@@ -78,13 +76,12 @@ class ClientController extends AbstractController
 
 
     }
+
     #[Route(path: '/error', name: 'error')]
     public function error(): Response
     {
         return $this->render('MainPages/client/error.html.twig');
     }
-
-
 
     //make routes for pages : services , contact , timetable , team
     #[Route('/services', name: 'app_services')]
@@ -96,12 +93,13 @@ class ClientController extends AbstractController
             'services' => $services
         ]);
     }
-    #[Route(path: '/team', name: 'app_team')]
 
+    #[Route(path: '/team', name: 'app_team')]
     public function team(): Response
     {
         return $this->render('MainPages/client/team.html.twig', ['controller_name' => 'ClientController']);
     }
+
     #[route('/', name: 'app_home')]
     public function home(): Response
     {
@@ -132,38 +130,6 @@ class ClientController extends AbstractController
 
     #[Route('/user/accesscard', name: 'app_user_accesscard')]
     public function accesscard(): Response
-    {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
-    }
-    #[Route('/login', name: 'app_login')]
-    public function login(): Response
-    {
-        #return $this->render('MainPages/client/login.html.twig');
-    }
-    #[Route('/signup', name: 'app_signup')]
-    public function signup(): Response
-    {
-        return $this->render('MainPages/client/signup.html.twig');
-
-    }
-    #[Route('/logout', name: 'app_logout')]
-    public function logout(): Response
-    {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
-    }
-    #[Route('/logout', name: 'app_login')]
-    public function login(): Response
-    {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
-    }
-    #[Route('/signup', name: 'app_signup')]
-    public function signup(): Response
     {
         /* return $this->render('test/about.html.twig', [
              'controller_name' => 'TestController',
