@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\OffreClient;
 use App\Entity\Offres;
 use App\Entity\User;
+use App\Form\MailerFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -13,6 +14,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -109,10 +112,27 @@ class ClientController extends AbstractController
     }
 
     #[Route('/contact', name: 'app_contact')]
-    public function contact(): Response
-    {
-        return $this->render('MainPages/client/contact.html.twig');
-    }
+    public function contact(Request $request, MailerInterface $mailer): Response{
+        $form = $this->createForm(MailerFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $email = (new Email())
+                ->to('gymworld135@gmail.com')
+                ->from('gymworld135@gmail.com')
+                ->subject($data['subject'])
+                ->text($data['from']." ".$data['message']);
+            $mailer->send($email);
+
+            $this->addFlash('success', 'Email sent successfully!');
+            // Redirect or render a success page
+        }
+
+        return $this->render('MainPages/client/contact.html.twig', [
+            'form' => $form->createView(),
+        ]); }
 
     #[Route('/timetable/{num<\d+>?1}', name: 'app_timetable')]
     public function timetable($num ,Request $request): Response

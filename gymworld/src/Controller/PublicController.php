@@ -19,7 +19,7 @@ class PublicController extends AbstractController
     #[Route('/admin/login', name: 'app_admin_login')]
     public function adminlogin(): Response
     {
-        return $this->render('public/index.html.twig', [
+        return $this->render('public/home.html.twig', [
             'controller_name' => 'PublicController',
         ]);
     }
@@ -27,7 +27,7 @@ class PublicController extends AbstractController
     #[Route('/signup', name: 'app_signup')]
     public function signup(): Response
     {
-        return $this->render('public/index.html.twig', [
+        return $this->render('public/home.html.twig', [
             'controller_name' => 'PublicController',
         ]);
     }

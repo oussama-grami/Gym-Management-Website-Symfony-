@@ -3,6 +3,7 @@
     Contact Us
 {% endblock %}
 {% block content %}
+    {{ parent() }}
     {% include 'Fragments/breadcrumb.html.twig' with {'page_title':'Contact Us'} %}
     <!-- Contact Section Begin -->
     <section class="contact-section spad">
@@ -32,17 +33,12 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="leave-comment">
-                        <form method="post" action="./contact/mail.php">
-                            <input type="text" name="email" placeholder="Email" required>
-                            <input type="text" name="objet" placeholder="objet">
-                            <textarea name="message" placeholder="message" required
-                                      minlength="10"></textarea>
-
-                            <button class="btn py-3 w-100 mb-4 text-dark" type="submit">
-                                Submit
-                            </button>
-
-                        </form>
+                            {{ form_start(form) }}
+                            {{ form_row(form.from) }}
+                            {{ form_row(form.subject) }}
+                            {{ form_row(form.message) }}
+                            <button type="submit">Send Email</button>
+                            {{ form_end(form) }}
                     </div>
                 </div>
 

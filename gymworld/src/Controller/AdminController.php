@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Offres;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\OffreType;
+
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -25,22 +27,22 @@ class AdminController extends AbstractController
 {
     #[Route(path: '/admin/dashboard/consulterforfait', name: 'consulterforfait')]
     public function consulterforfait(ManagerRegistry $doctrine):Response
-        {
-            $repository= $doctrine->getRepository(Offres::class);
-            $offres= $repository->findAll();
-            return $this->render('MainPages/admin/consulterforfait.html.twig',['offres'=>$offres]);
-        }
+    {
+        $repository= $doctrine->getRepository(Offres::class);
+        $offres= $repository->findAll();
+        return $this->render('MainPages/admin/consulterforfait.html.twig',['offres'=>$offres]);
+    }
     #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
-        return $this->render('MainPages/admin/index.html.twig');
+        return $this->render('MainPages/admin/home.html.twig');
     }
     #[Route('/admin/dashboard/horaire', name: 'consulterhoraire')]
     public function horaire(Request $request): Response
     {
         $defaultData = ['message' => 'Type your message here'];
         $form = $this->createFormBuilder($defaultData)
-                ->add('emploi1', FileType::class)
+            ->add('emploi1', FileType::class)
             ->add('emploi2', FileType::class)
             ->add('emploi3', FileType::class)
             ->add('emploi4', FileType::class)
@@ -190,5 +192,33 @@ class AdminController extends AbstractController
         /* return $this->render('test/about.html.twig', [
              'controller_name' => 'TestController',
          ]);*/
+    }
+    #[Route('/admin/delete_service/{id}', name: 'delete_service')]
+    public function delete_service(ManagerRegistry $doctrine, EntityManagerInterface $registry, $id): Response
+    {
+        $offre = $doctrine->getRepository(Offres::class)->find($id);
+        $registry->remove($offre);
+        $registry->flush();
+        $this->addFlash('success', 'Offre d\'id' . $id . ' supprimé avec succès');
+        return $this->redirectToRoute('consulterforfait');
+    }
+
+    #[Route('/admin/add_service', name: 'add_service')]
+    public function add_service(ManagerRegistry $doctrine, Request $request): Response
+    {
+        $Offre = new Offres();
+        $form = $this->createForm(OffreType::class, $Offre);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager = $doctrine->getManager();
+            $manager->persist($Offre);
+            $manager->flush();
+
+            $this->addFlash('success', $Offre->getName() . " est ajouté avec succés ");
+
+            return $this->redirectToRoute('consulterforfait');
+        } else {
+            return $this->render('MainPages/Admin/add_service.html.twig', ['form' => $form->createView()]);
+        }
     }
 }
