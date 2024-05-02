@@ -35,7 +35,7 @@ class AdminController extends AbstractController
     #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
-        return $this->render('MainPages/admin/index.html.twig');
+        return $this->render('MainPages/admin/home.html.twig');
     }
     #[Route('/admin/dashboard/horaire', name: 'consulterhoraire')]
     public function horaire(Request $request): Response
