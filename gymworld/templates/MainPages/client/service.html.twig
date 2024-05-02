@@ -128,12 +128,13 @@
                     </ul>
 
                     <form action="{{ path('app_pay') }}" method="post">
-                        <input type="hidden" name="offreDuration" value='.'>
-                        <input type="hidden" name="offreID" value=''>
-                        <input type="hidden" name="offre" value=''>
-                        <input type="hidden" name="price" value=''>
+                        <input type="hidden" name="offreDuration" value='{{ service.duration }}'>
+                        <input type="hidden" name="offreID" value='{{ service.id }}'>
+                        <input type="hidden" name="offre" value='{{ service.name }}'>
+                        <input type="hidden" name="price" value='{{ service.price }}'>
                         <input class="btn btn-warning" type="submit" value="Enroll now" name="submit">
                     </form>
+
                 </div>
             </div>
         {% endfor %}
