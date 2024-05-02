@@ -71,7 +71,6 @@
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/flex" />
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/options-resolver" />
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/event-dispatcher" />
-      <path value="$PROJECT_DIR$/gymworld/vendor/symfony/var-dumper" />
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/http-foundation" />
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/framework-bundle" />
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/polyfill-php81" />
@@ -149,8 +148,17 @@
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/ux-turbo" />
       <path value="$PROJECT_DIR$/gymworld/vendor/doctrine/doctrine-fixtures-bundle" />
       <path value="$PROJECT_DIR$/gymworld/vendor/doctrine/data-fixtures" />
-      <path value="$PROJECT_DIR$/gymworld/vendor/fakerphp/faker" />
+
+      
+      
+
       <path value="$PROJECT_DIR$/gymworld/vendor/stripe/stripe-php" />
+      <path value="$PROJECT_DIR$/gymworld/vendor/symfony/google-mailer" />
+      <path value="$PROJECT_DIR$/gymworld/vendor/fakerphp/faker" />
+      <path value="$PROJECT_DIR$/gymworld/vendor/symfonycasts/verify-email-bundle" />
+      <path value="$PROJECT_DIR$/gymworld/vendor/symfonycasts/reset-password-bundle" />
+      <path value="$PROJECT_DIR$/gymworld/vendor/symfony/var-dumper" />
+
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
