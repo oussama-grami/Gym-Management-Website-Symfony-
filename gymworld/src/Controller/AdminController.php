@@ -4,46 +4,45 @@ namespace App\Controller;
 
 use App\Entity\Offres;
 use App\Entity\User;
+use App\Form\UserType;
 use App\Form\OffreType;
+
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-
 use phpDocumentor\Reflection\Types\False_;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+/*#[IsGranted('ROLE_ADMIN')]*/
 class AdminController extends AbstractController
 {
     #[Route(path: '/admin/dashboard/consulterforfait', name: 'consulterforfait')]
-    public function consulterforfait(ManagerRegistry $doctrine): Response
+    public function consulterforfait(ManagerRegistry $doctrine):Response
     {
-        $repository = $doctrine->getRepository(Offres::class);
-        $offres = $repository->findAll();
-        return $this->render('MainPages/admin/consulterforfait.html.twig', ['offres' => $offres]);
+        $repository= $doctrine->getRepository(Offres::class);
+        $offres= $repository->findAll();
+        return $this->render('MainPages/admin/consulterforfait.html.twig',['offres'=>$offres]);
     }
-
     #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
-        return $this->render('MainPages/admin/home.html.twig');
+        return $this->render('MainPages/admin/index.html.twig');
     }
-
     #[Route('/admin/dashboard/horaire', name: 'consulterhoraire')]
     public function horaire(Request $request): Response
     {
         $defaultData = ['message' => 'Type your message here'];
         $form = $this->createFormBuilder($defaultData)
-                ->add('emploi1', FileType::class)
+            ->add('emploi1', FileType::class)
             ->add('emploi2', FileType::class)
             ->add('emploi3', FileType::class)
             ->add('emploi4', FileType::class)
@@ -66,10 +65,11 @@ class AdminController extends AbstractController
 
         return $this->render('MainPages/admin/consulterhoraire.html.twig',['form'=>$form->createView()]);
     }
-
     #[Route('/admin/dashboard/clients', name: 'app_admin_dashboard_client')]
     public function admin_dashboard_client(): Response
     {
+
+
         return $this->forward('App\Controller\AdminController::admin_dashboard_client_findAll');
     }
 
@@ -88,7 +88,64 @@ class AdminController extends AbstractController
             'nbPers' => $nbPers
         ]);
     }
+    #[Route('/admin/dashboard/add',name: 'app_admin_dashboard_add')]
+    public function admin_dashboard_add(ManagerRegistry $doctrine,\Symfony\Component\HttpFoundation\Request $request):Response
+    {
 
+        $user=new User();
+        $form=$this->createForm(UserType::class,$user);
+        $form->handleRequest($request);
+        try {
+            if ($form->isSubmitted()) {
+                $manager = $doctrine->getManager();
+                $manager->persist($user);
+                $manager->flush();
+                $this->addFlash('success', $user->getName() . "a ete ajoute avec succes");
+                return $this->redirectToRoute('app_admin_dashboard_client_findAll');
+            } else {
+                return $this->render('MainPages/Admin/add_or_edit_client.html.twig', ['form' => $form->createView()]);
+            }
+        }catch (\Exception $e){
+            $this->addFlash('error', "Une erreur s'est produite , veuillez reessayez .");
+            return $this->redirectToRoute('app_admin_dashboard_client_findAll');
+        }
+
+    }
+    #[Route('/admin/dashboard/edit/{id?0}',name: 'app_admin_dashboard_edit')]
+    public function admin_dashboard_edit(User $user=null,ManagerRegistry $doctrine,\Symfony\Component\HttpFoundation\Request $request):Response
+    {
+        $new=false;
+        if(
+            !$user
+        )
+        {
+            $new=true;
+            $user=new User();
+        }
+
+
+        $form=$this->createForm(UserType::class,$user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() ){
+            $manager=$doctrine->getManager();
+            $manager->persist($user);
+            $manager->flush();
+
+            if($new)
+            {
+                $msg="a ete ajoute avec succes";
+            }
+            else{
+                $msg="a ete edite avec succes";
+            }
+            $this->addFlash('success',$user->getName().$msg);
+            return  $this->redirectToRoute('app_admin_dashboard_client_findAll');
+        }else{
+            return $this->render('MainPages/Admin/add_or_edit_client.html.twig',['form'=>$form->createView()]);
+        }
+
+
+    }
     #[Route('/admin/dashboard/client/{id}', name: 'app_admin_dashboard_client_id')]
     public function admin_dashboard_client_id($id, User $client = null): Response
     {
@@ -129,14 +186,13 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_dashboard_client');
     }
 
-    #[Route('/admin/logout', name: 'app_logout')]
+    #[Route('/logout', name: 'app_logout')]
     public function logout(): Response
     {
         /* return $this->render('test/about.html.twig', [
              'controller_name' => 'TestController',
          ]);*/
     }
-
     #[Route('/admin/delete_service/{id}', name: 'delete_service')]
     public function delete_service(ManagerRegistry $doctrine, EntityManagerInterface $registry, $id): Response
     {
@@ -165,5 +221,4 @@ class AdminController extends AbstractController
             return $this->render('MainPages/Admin/add_service.html.twig', ['form' => $form->createView()]);
         }
     }
-
 }

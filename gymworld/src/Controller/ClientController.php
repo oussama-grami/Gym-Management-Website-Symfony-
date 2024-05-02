@@ -11,7 +11,6 @@ use http\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -22,7 +21,7 @@ class ClientController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function home(): Response
     {
-    return $this->render('MainPages/client/home.html.twig');
+    return $this->render('MainPages/client/index.html.twig');
     }
     //make routes for pages : services , contact , timetable , team
     #[Route('/services', name: 'app_services')]
@@ -64,11 +63,7 @@ return $this->render('MainPages/client/contact.html.twig', [
     'form' => $form->createView(),
 ]); }
 
-    #[Route('/timetable', name: 'app_timetable')]
-    public function timetable(): Response
-    {
-        return $this->render('MainPages/client/timetable.html.twig', [
-            'controller_name' => 'TestController',
+
     #[Route('/timetable/{num<\d+>?1}', name: 'app_timetable')]
     public function timetable($num ,Request $request): Response
     {
