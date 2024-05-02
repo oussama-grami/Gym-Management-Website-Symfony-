@@ -10,6 +10,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use http\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -67,7 +69,17 @@ return $this->render('MainPages/client/contact.html.twig', [
     {
         return $this->render('MainPages/client/timetable.html.twig', [
             'controller_name' => 'TestController',
+    #[Route('/timetable/{num<\d+>?1}', name: 'app_timetable')]
+    public function timetable($num ,Request $request): Response
+    {
+
+        $response =$this->render('MainPages/client/timetable.html.twig',[
+            'num'=>$num
         ]);
+        $response->headers->set('Cache-Control', 'max-age=1, must-revalidate');
+        $response->headers->set('Pragma', 'no-cache'); // Pour HTTP 1.0
+        $response->headers->set('Expires', '0'); // Pour les proxies
+        return $response;
     }
 
 
@@ -88,6 +100,22 @@ return $this->render('MainPages/client/contact.html.twig', [
          ]);*/
     }
 
+   
+   
+    #[Route('/login', name: 'app_login')]
+    public function login(): Response
+    {
+        #return $this->render('MainPages/client/login.html.twig');
+
+    }
+    #[Route('/signup', name: 'app_signup')]
+    public function signup(): Response
+    {
+
+
+        return $this->render('MainPages/client/signup.html.twig');
+
+    }
     #[Route('/logout', name: 'app_logout')]
     public function logout(): Response
     {
@@ -95,18 +123,4 @@ return $this->render('MainPages/client/contact.html.twig', [
              'controller_name' => 'TestController',
          ]);*/
     }
-    #[Route('/logout', name: 'app_login')]
-    public function login(): Response
-    {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
-    }
-    #[Route('/signup', name: 'app_signup')]
-    public function signup(): Response
-    {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
-    }
-}
+   }

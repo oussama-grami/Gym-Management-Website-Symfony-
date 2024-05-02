@@ -8,7 +8,17 @@ use App\Form\OffreType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+
+use phpDocumentor\Reflection\Types\False_;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,9 +40,32 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/dashboard/horaire', name: 'consulterhoraire')]
-    public function horaire(): Response
+    public function horaire(Request $request): Response
     {
-        return $this->render('MainPages/admin/consulterhoraire.html.twig');
+        $defaultData = ['message' => 'Type your message here'];
+        $form = $this->createFormBuilder($defaultData)
+                ->add('emploi1', FileType::class)
+            ->add('emploi2', FileType::class)
+            ->add('emploi3', FileType::class)
+            ->add('emploi4', FileType::class)
+            ->add('submit',SubmitType::class)
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $emplois = $form->getData();
+            // data is an array with "name", "email", and "message" keys
+            $i = 1;
+            foreach ($emplois as $emploi) {
+                if ($emploi instanceof UploadedFile) {
+                    $file_name = "emploi" . $i . ".png";
+                    $emploi->move("../public/uploads", $file_name);
+                    $i++;
+                }
+            }
+            echo "<script>alert('Timetables added successfully')</script>";
+        }
+
+        return $this->render('MainPages/admin/consulterhoraire.html.twig',['form'=>$form->createView()]);
     }
 
     #[Route('/admin/dashboard/clients', name: 'app_admin_dashboard_client')]
