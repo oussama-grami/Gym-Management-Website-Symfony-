@@ -5,39 +5,38 @@ namespace App\Controller;
 use App\Entity\OffreClient;
 use App\Entity\Offres;
 use App\Entity\User;
-use App\Form\MailerFormType;
-use App\Repository\UserRepository;
+use App\services\PdfService;
+use App\services\RedirectIfNotUserService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use http\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-use Symfony\Component\HttpFoundation\Cookie;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/*#[IsGranted('ROLE_USER')]*/
-
 class ClientController extends AbstractController
 {
+    public function __construct(private PdfService $pdfService, private
+    RedirectIfNotUserService                       $redirectIfNotUserService)
+    {
+    }
+
+
     #[Route('/success', name: 'success')]
     public function success(): Response
     {
+        $res = $this->redirectIfNotUserService->redirectIfNotUser($this->isGranted('ROLE_USER'));
+        if ($res != null) return $res;
         return $this->render('MainPages/client/paysuccess.html.twig');
     }
 
     #[Route(path: '/payment', name: 'app_pay')]
     public function pay(Request $request, EntityManagerInterface $manager): Response
     {
+        $res = $this->redirectIfNotUserService->redirectIfNotUser($this->isGranted('ROLE_USER'));
+        if ($res != null) return $res;
         $offreID = $request->request->get('offreID');
         $offrename = $request->request->get('offre');
         $offreDuration = $request->request->get('offreDuration');
@@ -74,7 +73,7 @@ class ClientController extends AbstractController
             $offreclient->setOffre($offre);
             $date = new \DateTime();
             $offreclient->setDateDebut($date);
-            $offreclient->setDateFin($date->add(new \DateInterval('P'.$offreDuration.'D')));
+            $offreclient->setDateFin($date->add(new \DateInterval('P' . $offreDuration . 'D')));
             $manager->persist($offreclient);
             $manager->flush();
 
@@ -92,106 +91,42 @@ class ClientController extends AbstractController
     #[Route(path: '/error', name: 'error')]
     public function error(): Response
     {
+        $res = $this->redirectIfNotUserService->redirectIfNotUser($this->isGranted('ROLE_USER'));
+        if ($res != null) return $res;
         return $this->render('MainPages/client/error.html.twig');
-    }
-
-    //make routes for pages : services , contact , timetable , team
-    #[Route('/services', name: 'app_services')]
-    public function services(ManagerRegistry $doctrine): Response
-    {
-        $repository = $doctrine->getRepository(Offres::class);
-        $services = $repository->findAll();
-        return $this->render('MainPages/client/service.html.twig', [
-            'services' => $services
-        ]);
-    }
-
-    #[Route(path: '/team', name: 'app_team')]
-    public function team(): Response
-    {
-        return $this->render('MainPages/client/team.html.twig', ['controller_name' => 'ClientController']);
-    }
-
-    #[Route('/', name: 'app_home') ]
-    public function home(): Response
-    {
-        return $this->render('MainPages/client/index.html.twig', ['controller_name' => 'ClientController']);
-
-    }
-
-
-    #[Route('/contact', name: 'app_contact')]
-    public function contact(Request $request, MailerInterface $mailer): Response{
-        $form = $this->createForm(MailerFormType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-
-            $email = (new Email())
-                ->to('gymworld135@gmail.com')
-                ->from('gymworld135@gmail.com')
-                ->subject($data['subject'])
-                ->text($data['from']." ".$data['message']);
-            $mailer->send($email);
-
-            $this->addFlash('success', 'Email sent successfully!');
-            // Redirect or render a success page
-        }
-
-        return $this->render('MainPages/client/contact.html.twig', [
-            'form' => $form->createView(),
-        ]); }
-
-    #[Route('/timetable/{num<\d+>?1}', name: 'app_timetable')]
-    public function timetable($num ,Request $request): Response
-    {
-
-        $response =$this->render('MainPages/client/timetable.html.twig',[
-            'num'=>$num
-        ]);
-        $response->headers->set('Cache-Control', 'max-age=1, must-revalidate');
-        $response->headers->set('Pragma', 'no-cache'); // Pour HTTP 1.0
-        $response->headers->set('Expires', '0'); // Pour les proxies
-        return $response;
     }
 
     #[Route('/user/dashboard', name: 'app_user_dashboard')]
     public function dashboard(): Response
     {
+        $res = $this->redirectIfNotUserService->redirectIfNotUser($this->isGranted('ROLE_USER'));
+        if ($res != null) return $res;
         /* return $this->render('test/about.html.twig', [
              'controller_name' => 'TestController',
          ]);*/
     }
 
-    #[Route('/user/accesscard', name: 'app_user_accesscard')]
-    public function accesscard(): Response
+    #[Route('/accessCard/{id}', name: 'app_user_accesscard')]
+    public function accessCard(PdfService $pdfService, User $personne = null): Response
     {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
+        $res = $this->redirectIfNotUserService->redirectIfNotUser($this->isGranted('ROLE_USER'));
+        if ($res != null) return $res;
+        if ($personne == null) {
+            return $this->redirectToRoute('app_home');
+        } else {
+            $offres = $personne->getOffreClients();
+
+            if (count($offres) == 0) {
+                return $this->redirectToRoute('app_home');
+            } else {
+                $html = $this->renderView('public/pdf.html.twig', ['personne' => $personne]); // Utilise renderView() pour générer le HTML sans le rendre
+                $pdfContent = $pdfService->generatePdfContent($html);
+                $response = new Response($pdfContent);
+                $response->headers->set('Content-Type', 'application/pdf');
+                $response->headers->set('Content-Disposition', 'attachment; filename="details.pdf"');
+                return $response;
+            }
+        }
     }
-
-    #[Route('/login', name: 'app_login')]
-    public function login(): Response
-    {
-        #return $this->render('MainPages/client/login.html.twig');
-    }
-    #[Route('/signup', name: 'app_signup')]
-    public function signup(): Response
-    {
-        return $this->render('MainPages/client/signup.html.twig');
-
-    }
-    #[Route('/logout', name: 'app_logout')]
-    public function logout(): Response
-    {
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
-    }
-
-
-
 
 }
