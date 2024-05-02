@@ -100,10 +100,10 @@ class ClientController extends AbstractController
     {
         return $this->render('MainPages/client/team.html.twig', ['controller_name' => 'ClientController']);
     }
-    #[Route('/home', name: 'app_home') ]
+    #[Route('/', name: 'app_home') ]
     public function home(): Response
     {
-        return $this->render('MainPages/client/home.html.twig',['controller_name' => 'ClientController']);
+        return $this->render('MainPages/client/index.html.twig',['controller_name' => 'ClientController']);
     }
 
     #[Route('/contact', name: 'app_contact')]

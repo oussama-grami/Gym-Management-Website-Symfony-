@@ -149,6 +149,8 @@
       <path value="$PROJECT_DIR$/gymworld/vendor/symfony/ux-turbo" />
       <path value="$PROJECT_DIR$/gymworld/vendor/doctrine/doctrine-fixtures-bundle" />
       <path value="$PROJECT_DIR$/gymworld/vendor/doctrine/data-fixtures" />
+      <path value="$PROJECT_DIR$/gymworld/vendor/fakerphp/faker" />
+      <path value="$PROJECT_DIR$/gymworld/vendor/stripe/stripe-php" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
