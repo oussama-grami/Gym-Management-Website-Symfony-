@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-
+{{ parent() }}
 
 <div class="list">
     <h2>Liste des forfaits</h2>
@@ -27,10 +27,9 @@
             <td>{{ row.name }}</td>
             <td>{{ row.duration }}</td>
             <td>{{ row.price }}</td>
-            <td><a href="{{ path('delete_service',{id: row.id}) }}"  >
-                    <i class="fa-solid fa-trash" style="color: #e55518;"></i>
-
-                </a></td>
+            <td><a href="{{ path('delete_service',{id: row.id}) }}"  class ="delete" >
+                     delete </a>
+            </td>
 
 
         </tr>
@@ -104,7 +103,15 @@
             text-decoration: none;
             height: 40px;
             padding: 10px;
-            font-family: "Arial Black"
+            font-family: "Roboto", sans-serif
+        }
+        .delete{
+            background-color: orangered;
+            color: whitesmoke;
+            font-family: "Roboto", sans-serif;
+            text-decoration: none;
+            padding: 10px;
+
         }
 
 
