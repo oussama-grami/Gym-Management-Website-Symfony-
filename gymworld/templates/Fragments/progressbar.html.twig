@@ -1,7 +1,8 @@
+{% for offre in offre %}
 <span
         class="mb-2"
 > Abonnement :
-    {{ offre.Offre.name }} </span>
+    {{ offre.offre.name }} </span>
 <br>
 <span class="mb-2">
     Date expiration :
@@ -9,12 +10,12 @@
 </span>
 <br>
 <div class="progress" role="progressbar" aria-label="Animated striped example"
-     aria-valuenow="{{ d }}"
+     aria-valuenow="{{ offre.offre.duration}}"
      aria-valuemin="0" aria-valuemax="100">
     <div class="progress-bar progress-bar-striped progress-bar-animated"
-         style="width: {{ d }}%;background-color:orangered">
+         style="width: {{ offre.offre.duration }}%;background-color:orangered">
     </div>
 </div>
 
 
-
+{% endfor %}
