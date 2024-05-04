@@ -3,10 +3,11 @@
     Admin Page
 {% endblock %}
 {% block stylesheets %}
-    {{ parent() }}
-    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="{{ asset('public/node_modules/bootstrap/dist/css/bootstrap.min.css') }}">    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+
     <style>
         * {
             font-family: "Oswald", sans-serif !important;
