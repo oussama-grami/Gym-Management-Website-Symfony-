@@ -33,7 +33,10 @@
                 <div class="button-container col-lg-4 mt-5 mx-auto mt-lg-0 ms-lg-0">
                     <a href="{{ path('app_user_dashboard') }}"
                        class="primary-btn">Profile </a>
-                    <a href="{{ path('app_user_accesscard') }}" class="primary-btn">Access
+                    <a href="{{ path('app_user_accesscard',{
+                        'id': app.user.id,
+                    }) }}"
+                       class="primary-btn">Access
                         Card </a>
                     <a href="{{ path('app_logout') }}" class="primary-btn">sign out </a>
                 </div>
