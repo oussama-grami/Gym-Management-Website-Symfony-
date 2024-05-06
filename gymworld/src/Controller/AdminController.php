@@ -95,6 +95,7 @@ class AdminController extends AbstractController
 
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
+        $form->remove('password');
         $form->handleRequest($request);
         try {
             if ($form->isSubmitted()) {
