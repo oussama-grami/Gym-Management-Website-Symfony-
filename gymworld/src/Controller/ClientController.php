@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\OffreClient;
 use App\Entity\Offres;
 use App\Entity\User;
+use App\Form\UserType;
 use App\services\PdfService;
 use App\services\RedirectIfNotUserService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,15 +98,30 @@ class ClientController extends AbstractController
         return $this->render('MainPages/client/error.html.twig');
     }
 
-    #[Route('/user/dashboard', name: 'app_user_dashboard')]
-    public function dashboard(): Response
+    #[Route('/user/dashboard/{id}', name: 'app_user_dashboard')]
+    public function dashboard(User $user=null ,EntityManagerInterface $manager,\Doctrine\Persistence\ManagerRegistry $doctrine ,Request $request): Response
     {
+
         $res = $this->redirectIfNotUserService->redirectIfNotUser($this->isGranted('ROLE_USER'));
         if ($res != null) return $res;
-        /* return $this->render('test/about.html.twig', [
-             'controller_name' => 'TestController',
-         ]);*/
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $manager = $doctrine->getManager();
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash('success', 'your profile has been successfully edited');
+
+        }
+        return $this->render('MainPages/client/dashboard.html.twig', [
+           'form' => $form->createView(),'user'=>$user ,'dateActuelle' => new \DateTime()
+
+
+        ]);
+
     }
+
+
 
     #[Route('/accessCard/{id}', name: 'app_user_accesscard')]
     public function accessCard(PdfService $pdfService, User $personne = null): Response

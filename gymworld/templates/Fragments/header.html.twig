@@ -31,7 +31,9 @@
             </div>
             {% if app.user and 'ROLE_USER' in app.user.roles %}
                 <div class="button-container col-lg-4 mt-5 mx-auto mt-lg-0 ms-lg-0">
-                    <a href="{{ path('app_user_dashboard') }}"
+                    <a href="{{ path('app_user_dashboard',{
+                        'id': app.user.id,
+                    }) }}"
                        class="primary-btn">Profile </a>
                     <a href="{{ path('app_user_accesscard',{
                         'id': app.user.id,
