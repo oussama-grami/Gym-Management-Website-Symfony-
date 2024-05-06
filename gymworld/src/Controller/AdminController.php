@@ -95,19 +95,20 @@ class AdminController extends AbstractController
 
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
+        $form->remove('password');
         $form->handleRequest($request);
         try {
             if ($form->isSubmitted()) {
                 $manager = $doctrine->getManager();
                 $manager->persist($user);
                 $manager->flush();
-                $this->addFlash('success', $user->getName() . "a ete ajoute avec succes");
+                $this->addFlash('success', $user->getName() . "client added successfully");
                 return $this->redirectToRoute('app_admin_dashboard_client_findAll');
             } else {
                 return $this->render('MainPages/Admin/add_or_edit_client.html.twig', ['form' => $form->createView()]);
             }
         } catch (\Exception $e) {
-            $this->addFlash('error', "Une erreur s'est produite , veuillez reessayez .");
+            $this->addFlash('error', "please verify credentials : the username and the email are unique for each client");
             return $this->redirectToRoute('app_admin_dashboard_client_findAll');
         }
 
@@ -148,10 +149,10 @@ class AdminController extends AbstractController
     public function admin_dashboard_client_id($id, User $client = null): Response
     {
         if ($client == null) {
-            $this->addFlash('error', 'Client avec l\'id ' . $id . ' non trouvé');
+            $this->addFlash('error', 'Client avec l\'id ' . $id . ' not found');
             return $this->redirectToRoute('app_admin_dashboard_client');
         }
-        $this->addFlash('success', 'Client avec l\'id ' . $id . ' trouvé avec succes');
+        $this->addFlash('success', 'Client avec l\'id ' . $id . ' found successfully');
         return $this->render('MainPages/Admin/detail_client.html.twig', [
             'client' => $client,
             'dateActuelle' => new \DateTime()
@@ -162,7 +163,7 @@ class AdminController extends AbstractController
     public function admin_dashboard_client_id_edit($id, User $client = null): Response
     {
         if ($client == null && $id != 0) {
-            $this->addFlash('error', 'Client avec l\'id ' . $id . ' non trouvé');
+            $this->addFlash('error', 'Client avec l\'id ' . $id . ' not found');
             return $this->redirectToRoute('app_admin_dashboard_client');
         }
         return $this->render('MainPages/Admin/add_or_edit_client.html.twig', [
@@ -177,9 +178,9 @@ class AdminController extends AbstractController
         if ($user != null) {
             $registry->remove($user);
             $registry->flush();
-            $this->addFlash('success', 'Client avec l\'id ' . $id . ' supprimé avec succès');
+            $this->addFlash('success', 'Client avec l\'id ' . $id . ' deleted successfully');
         } else {
-            $this->addFlash('error', 'Client avec l\'id ' . $id . ' non trouvé');
+            $this->addFlash('error', 'Client avec l\'id ' . $id . ' not found');
         }
         return $this->redirectToRoute('app_admin_dashboard_client');
     }
@@ -189,11 +190,11 @@ class AdminController extends AbstractController
     {
         $offre = $doctrine->getRepository(Offres::class)->find($id);
         if ($offre == null) {
-            $this->addFlash('error', 'Offre d\'id' . $id . ' non trouvé');
+            $this->addFlash('error', 'Offre d\'id' . $id . ' not found');
         } else {
             $registry->remove($offre);
             $registry->flush();
-            $this->addFlash('success', 'Offre d\'id' . $id . ' supprimé avec succès');
+            $this->addFlash('success', 'Offre d\'id' . $id . ' deleted successfully');
         }
         return $this->redirectToRoute('consulterforfait');
     }
@@ -209,7 +210,7 @@ class AdminController extends AbstractController
             $manager->persist($Offre);
             $manager->flush();
 
-            $this->addFlash('success', $Offre->getName() . " est ajouté avec succés ");
+            $this->addFlash('success', $Offre->getName() . " added successfully ");
 
             return $this->redirectToRoute('consulterforfait');
         } else {
