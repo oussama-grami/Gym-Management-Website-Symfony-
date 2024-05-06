@@ -19,28 +19,25 @@ profile
     </div>
 
     <div class="offre">
-    {% for offre in offre %}
-        <span
-                class="mb-2"
-        > Abonnement :
-    {{ offre.offre.name }} </span>
-        <br>
-        <span class="mb-2">
-    Date expiration :
-    {{ offre.DateFin | date('d-m-Y') }}
-</span>
-        <br>
-        <div class="progress" role="progressbar" aria-label="Animated striped example"
-             aria-valuenow="{{ offre.offre.duration}}"
-             aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar progress-bar-striped progress-bar-animated"
-                 style="width: {{ offre.offre.duration }}%;background-color:orangered">
-            </div>
-        </div>
+        <ul class="list-group">
+            {% for subscription in user.offreClients %}
+                {% if subscription.DateFin > date() %}
+                    <li class="list-group-item">
+                        {% set dateDebut = subscription.DateDebut %}
+                        {% set dateFin = subscription.DateFin %}
+                        {% set dureeTotale = dateDebut.diff(dateFin).days %}
+                        {% set dureeEcoulee = dateDebut.diff(dateActuelle).days %}
+                        {% set d = (dureeEcoulee / dureeTotale) * 100 %}
+                        {% include 'Fragments/progressbar.html.twig'
+                            with {
+                            'd': d,
+                            'offre': subscription
+                        } %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
 
-
-    {% endfor %}
-    </div>
 {% endblock %}
 {% block stylesheets %}
 {{ parent() }}

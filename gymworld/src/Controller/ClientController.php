@@ -113,9 +113,9 @@ class ClientController extends AbstractController
             $this->addFlash('success', 'your profile has been successfully edited');
 
         }
-        $offreclient= $manager->getRepository(OffreClient::class)->findby(['client'=>$user]);
         return $this->render('MainPages/client/dashboard.html.twig', [
-            'offre' => $offreclient,'form' => $form->createView(),'user'=>$user
+           'form' => $form->createView(),'user'=>$user ,'dateActuelle' => new \DateTime()
+
 
         ]);
 
