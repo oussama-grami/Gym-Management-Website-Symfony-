@@ -20,7 +20,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ADMIN')]
-
 #[Route(path: '/admin')]
 class AdminController extends AbstractController
 {
@@ -92,26 +91,7 @@ class AdminController extends AbstractController
     #[Route('/dashboard/add', name: 'app_admin_dashboard_add')]
     public function admin_dashboard_add(ManagerRegistry $doctrine, \Symfony\Component\HttpFoundation\Request $request): Response
     {
-
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->remove('password');
-        $form->handleRequest($request);
-        try {
-            if ($form->isSubmitted()) {
-                $manager = $doctrine->getManager();
-                $manager->persist($user);
-                $manager->flush();
-                $this->addFlash('success', $user->getName() . "client added successfully");
-                return $this->redirectToRoute('app_admin_dashboard_client_findAll');
-            } else {
-                return $this->render('MainPages/Admin/add_or_edit_client.html.twig', ['form' => $form->createView()]);
-            }
-        } catch (\Exception $e) {
-            $this->addFlash('error', "please verify credentials : the username and the email are unique for each client");
-            return $this->redirectToRoute('app_admin_dashboard_client_findAll');
-        }
-
+        return $this->forward('App\Controller\AdminController::admin_dashboard_edit', ['doctrine' => $doctrine, 'request' => $request]);
     }
 
     #[Route('/dashboard/edit/{id?0}', name: 'app_admin_dashboard_edit')]
@@ -125,12 +105,12 @@ class AdminController extends AbstractController
             $user = new User();
         }
         $form = $this->createForm(UserType::class, $user);
+        $form->remove('password');
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager = $doctrine->getManager();
             $manager->persist($user);
             $manager->flush();
-
             if ($new) {
                 $msg = "a ete ajoute avec succes";
             } else {
@@ -141,8 +121,6 @@ class AdminController extends AbstractController
         } else {
             return $this->render('MainPages/Admin/add_or_edit_client.html.twig', ['form' => $form->createView()]);
         }
-
-
     }
 
     #[Route('/dashboard/client/{id}', name: 'app_admin_dashboard_client_id')]

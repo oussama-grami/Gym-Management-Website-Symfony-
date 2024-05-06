@@ -106,17 +106,14 @@ class ClientController extends AbstractController
         if ($res != null) return $res;
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager = $doctrine->getManager();
             $manager->persist($user);
             $manager->flush();
             $this->addFlash('success', 'your profile has been successfully edited');
-
         }
         return $this->render('MainPages/client/dashboard.html.twig', [
            'form' => $form->createView(),'user'=>$user ,'dateActuelle' => new \DateTime()
-
-
         ]);
 
     }
