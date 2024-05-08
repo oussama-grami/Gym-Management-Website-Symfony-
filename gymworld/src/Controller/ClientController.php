@@ -110,6 +110,7 @@ class ClientController extends AbstractController
         }
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $doctrine->getManager();
             $manager->persist($user);
