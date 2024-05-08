@@ -91,7 +91,7 @@ class AdminController extends AbstractController
     #[Route('/dashboard/add', name: 'app_admin_dashboard_add')]
     public function admin_dashboard_add(ManagerRegistry $doctrine, \Symfony\Component\HttpFoundation\Request $request): Response
     {
-        return $this->forward('App\Controller\AdminController::admin_dashboard_edit', ['doctrine' => $doctrine, 'request' => $request]);
+        return $this->forward('App\Controller\AdminController::admin_dashboard_edit', ['request' => $request]);
     }
 
     #[Route('/dashboard/edit/{id?0}', name: 'app_admin_dashboard_edit')]
