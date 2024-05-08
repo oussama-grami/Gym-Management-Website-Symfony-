@@ -99,35 +99,40 @@ class ClientController extends AbstractController
     }
 
     #[Route('/user/dashboard/{id}', name: 'app_user_dashboard')]
-    public function dashboard(User $user=null ,EntityManagerInterface $manager,\Doctrine\Persistence\ManagerRegistry $doctrine ,Request $request): Response
+    public function dashboard(User                                  $user = null, $id, EntityManagerInterface $manager,
+                              \Doctrine\Persistence\ManagerRegistry $doctrine, Request $request): Response
     {
 
         $res = $this->redirectIfNotUserService->redirectIfNotUser($this->isGranted('ROLE_USER'));
         if ($res != null) return $res;
+        if ($id != $this->getUser()->getId()) {
+            return $this->redirectToRoute('app_home');
+        }
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager = $doctrine->getManager();
             $manager->persist($user);
             $manager->flush();
             $this->addFlash('success', 'your profile has been successfully edited');
-
         }
         return $this->render('MainPages/client/dashboard.html.twig', [
-           'form' => $form->createView(),'user'=>$user ,'dateActuelle' => new \DateTime()
-
-
+            'form' => $form->createView(), 'user' => $user, 'dateActuelle' => new \DateTime()
         ]);
 
     }
 
 
-
     #[Route('/accessCard/{id}', name: 'app_user_accesscard')]
-    public function accessCard(PdfService $pdfService, User $personne = null): Response
+    public function accessCard(PdfService $pdfService, $id, User $personne = null,):
+    Response
     {
         $res = $this->redirectIfNotUserService->redirectIfNotUser($this->isGranted('ROLE_USER'));
         if ($res != null) return $res;
+        if ($id != $this->getUser()->getId()) {
+            return $this->redirectToRoute('app_home');
+        }
         if ($personne == null) {
             return $this->redirectToRoute('app_home');
         } else {
