@@ -5,15 +5,15 @@ profile
 {% endblock %}
 {% block body %}
     <h1>Welcome {{ user.name }}</h1>
-
     {{ parent()}}
+    <div class="d-flex justify-content-center align-items-center " style="height: 95vh">
+
     {{ form_start(form) }}
     <div class="form-group">
         {{ form_row(form.username) }}
         {{ form_row(form.name) }}
         {{ form_row(form.email) }}
         {{ form_row(form.phone_number) }}
-        {{ form_row(form.password) }}
         {{ form_row(form.submit,{ 'attr': {'class': 'primary_btn'} }) }}
 
     </div>
@@ -37,6 +37,7 @@ profile
                 {% endif %}
             {% endfor %}
         </ul>
+        </div>
 
 {% endblock %}
 {% block stylesheets %}
@@ -64,8 +65,14 @@ profile
             margin: 100px;
         }
         h1{
-            margin-left: 300px;
-            margin-top: 100px;
+
+            margin: 100px;
+            text-align: center;
         }
+         input.form-control:focus {
+            border-color: orangered;
+            box-shadow: 0 0 5px orange;
+        }
+
     </style>
 {% endblock %}

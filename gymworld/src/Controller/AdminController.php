@@ -8,6 +8,7 @@ use App\Form\UserType;
 use App\Form\OffreType;
 
 use App\Repository\UserRepository;
+use Container5K7JvQN\getOffreClientRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -95,7 +96,6 @@ class AdminController extends AbstractController
 
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
-        $form->remove('password');
         $form->handleRequest($request);
         try {
             if ($form->isSubmitted()) {
@@ -178,9 +178,9 @@ class AdminController extends AbstractController
         if ($user != null) {
             $registry->remove($user);
             $registry->flush();
-            $this->addFlash('success', 'Client avec l\'id ' . $id . ' deleted successfully');
+            $this->addFlash('success', 'Client with id ' . $id . ' deleted successfully');
         } else {
-            $this->addFlash('error', 'Client avec l\'id ' . $id . ' not found');
+            $this->addFlash('error', 'Client with id ' . $id . ' not found');
         }
         return $this->redirectToRoute('app_admin_dashboard_client');
     }
@@ -190,13 +190,21 @@ class AdminController extends AbstractController
     {
         $offre = $doctrine->getRepository(Offres::class)->find($id);
         if ($offre == null) {
-            $this->addFlash('error', 'Offre d\'id' . $id . ' not found');
-        } else {
-            $registry->remove($offre);
-            $registry->flush();
-            $this->addFlash('success', 'Offre d\'id' . $id . ' deleted successfully');
+            $this->addFlash('error', 'Offre with id ' . $id . 'is used by a ');
+        }
+        else {
+            $offreClients = $offre->getOffreClients();
+            if (! $offreClients->isEmpty() ) {
+                $this->addFlash('error', 'Offre d\'id' . $id . ' is purchased by a client ');
+
+            } else {
+                $registry->remove($offre);
+                $registry->flush();
+                $this->addFlash('success', 'Offre with id' . $id . ' deleted successfully');
+            }
         }
         return $this->redirectToRoute('consulterforfait');
+
     }
 
     #[Route('/add_service', name: 'add_service')]
