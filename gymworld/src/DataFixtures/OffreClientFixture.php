@@ -13,8 +13,8 @@ class OffreClientFixture extends Fixture implements FixtureGroupInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $user = $manager->getReference(User::class, 5);
-        $offre = $manager->getReference(offres::class, 4);
+        $user = $manager->getReference(User::class, 101);
+        $offre = $manager->getReference(offres::class, 3);
         $oc = new OffreClient();
         $oc->setClient($user);
         $oc->setOffre($offre);

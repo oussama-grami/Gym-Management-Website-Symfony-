@@ -34,11 +34,10 @@ class RegistrationFormType extends AbstractType
                     'attr' => ['autocomplete' => 'new-password'],
                     'constraints' => [
                         new NotBlank(['message' => 'Please enter a password',]),
-                        new Length(['min' => 6,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        new Length([
                             // max length allowed by Symfony for security reasons
                             'max' => 4096,]),
-                        new Regex('/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/', "Password must contain 1 uppercase letter,1 lowercase and 1 number")
+                        new Regex('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/', "Password must contain 1 uppercase letter,1 lowercase and 1 number and at least 8 characters long.")
                     ]
 
                 ],
