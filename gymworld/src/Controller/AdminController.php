@@ -8,7 +8,6 @@ use App\Form\UserType;
 use App\Form\OffreType;
 
 use App\Repository\UserRepository;
-use Container5K7JvQN\getOffreClientRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,13 +19,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMIN')]
 #[Route(path: '/admin')]
 class AdminController extends AbstractController
 {
     #[Route(path: '/dashboard/consulterforfait', name: 'consulterforfait')]
     public function consulterforfait(ManagerRegistry $doctrine): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         $repository = $doctrine->getRepository(Offres::class);
         $offres = $repository->findAll();
         return $this->render('MainPages/admin/consulterforfait.html.twig', ['offres' => $offres]);
@@ -35,12 +36,18 @@ class AdminController extends AbstractController
     #[Route('/', name: 'app_admin')]
     public function admin(): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         return $this->render('MainPages/Admin/index.html.twig');
     }
 
     #[Route('/dashboard/horaire', name: 'consulterhoraire')]
     public function horaire(Request $request): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         $defaultData = ['message' => 'Type your message here'];
         $form = $this->createFormBuilder($defaultData)
             ->add('emploi1', FileType::class)
@@ -70,6 +77,9 @@ class AdminController extends AbstractController
     #[Route('/dashboard/clients', name: 'app_admin_dashboard_client')]
     public function admin_dashboard_client(): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         return $this->forward('App\Controller\AdminController::admin_dashboard_client_findAll');
     }
 
@@ -79,6 +89,9 @@ class AdminController extends AbstractController
                                                    1):
     Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         $clients = $userRepository->findByExampleField($nbPers, $nbPage);
         $nbTotdePages = ceil($userRepository->count() / $nbPers);
         return $this->render('MainPages/Admin/clients.html.twig', [
@@ -89,9 +102,12 @@ class AdminController extends AbstractController
         ]);
     }
 
-     #[Route('/dashboard/add', name: 'app_admin_dashboard_add')]
+    #[Route('/dashboard/add', name: 'app_admin_dashboard_add')]
     public function admin_dashboard_add(ManagerRegistry $doctrine, \Symfony\Component\HttpFoundation\Request $request): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         return $this->forward('App\Controller\AdminController::admin_dashboard_edit', ['request' => $request]);
     }
 
@@ -99,6 +115,9 @@ class AdminController extends AbstractController
     #[Route('/dashboard/edit/{id?0}', name: 'app_admin_dashboard_edit')]
     public function admin_dashboard_edit(User $user = null, ManagerRegistry $doctrine, \Symfony\Component\HttpFoundation\Request $request): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         $new = false;
         if (
             !$user
@@ -128,6 +147,9 @@ class AdminController extends AbstractController
     #[Route('/dashboard/client/{id}', name: 'app_admin_dashboard_client_id')]
     public function admin_dashboard_client_id($id, User $client = null): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         if ($client == null) {
             $this->addFlash('error', 'Client avec l\'id ' . $id . ' not found');
             return $this->redirectToRoute('app_admin_dashboard_client');
@@ -142,19 +164,16 @@ class AdminController extends AbstractController
     #[Route('/dashboard/client/{id?0}/edit', name: 'app_admin_dashboard_client_id_edit')]
     public function admin_dashboard_client_id_edit($id, User $client = null): Response
     {
-        if ($client == null && $id != 0) {
-            $this->addFlash('error', 'Client avec l\'id ' . $id . ' not found');
-            return $this->redirectToRoute('app_admin_dashboard_client');
-        }
-        return $this->render('MainPages/Admin/add_or_edit_client.html.twig', [
-            'client' => ['name' => 'John Doe',
-                'email' => '']]);
+        return $this->redirectToRoute('app_admin_dashboard_edit', ['user' => $client,'id'=>$id]);
     }
 
     #[Route('/dashboard/client/{id}/delete', name: 'app_admin_dashboard_client_id_delete')]
     public function admin_dashboard_client_id_delete($id,
                                                      EntityManagerInterface $registry, User $user = null): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         if ($user != null) {
             $registry->remove($user);
             $registry->flush();
@@ -168,13 +187,15 @@ class AdminController extends AbstractController
     #[Route('/delete_service/{id}', name: 'delete_service')]
     public function delete_service(ManagerRegistry $doctrine, EntityManagerInterface $registry, $id): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         $offre = $doctrine->getRepository(Offres::class)->find($id);
         if ($offre == null) {
             $this->addFlash('error', 'Offre with id ' . $id . 'is used by a ');
-        }
-        else {
+        } else {
             $offreClients = $offre->getOffreClients();
-            if (! $offreClients->isEmpty() ) {
+            if (!$offreClients->isEmpty()) {
                 $this->addFlash('error', 'Offre d\'id' . $id . ' is purchased by a client ');
 
             } else {
@@ -190,6 +211,9 @@ class AdminController extends AbstractController
     #[Route('/add_service', name: 'add_service')]
     public function add_service(ManagerRegistry $doctrine, Request $request): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_login_admin');
+        }
         $Offre = new Offres();
         $form = $this->createForm(OffreType::class, $Offre);
         $form->handleRequest($request);
