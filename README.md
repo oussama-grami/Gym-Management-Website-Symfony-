@@ -1,6 +1,11 @@
 # Gym Management Website
 
 The Gym Management Website is designed to streamline the operations of a fitness center. It provides a platform for managing members, scheduling classes for the admin and offers the possibility to the clients to create accounts, pay offers and more.
+THIS WORK WAS ELEBORATED BY A GROUP OF 4 STUDENTS IN SOFTWARE ENGINEERING OF  THE NATIONAL INSTITUTE OF APPLIED SCIENCES AND TECHNOLOGY (INSAT) /
+  --OUSSEMA GUERAMI--
+  --REFKA MAHJOUB--
+  --MOHAMMED AZIZ DHOUIBI--
+  --MARAM BEN RHOUMA--
 
 ## Features
 
