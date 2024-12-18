@@ -170,7 +170,7 @@ class AdminController extends AbstractController
     {
         $offre = $doctrine->getRepository(Offres::class)->find($id);
         if ($offre == null) {
-            $this->addFlash('error', 'Offre with id ' . $id . 'is used by a ');
+            $this->addFlash('error', 'Offre with id ' . $id . 'is not found ');
         }
         else {
             $offreClients = $offre->getOffreClients();
