@@ -48,8 +48,11 @@ This project was developed by a group of 4 software engineering students at the 
 - 👩‍💻 Maram Ben Rhouma  
 
 ---
+## 📦 Installation (Backend)
 
-## 🏗️ Project Structure (optional)
-
-<pre><code>``` gym-management/ ├── backend/ # Symfony Application │ ├── src/ │ ├── templates/ # Twig templates │ ├── config/ │ └── ... ├── frontend/ # Angular Application │ ├── src/app/ │ └── ... └── README.md ```</code></pre>
+1. Install PHP (>=8.1), Composer, and MySQL  
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/gym-management.git
+   cd gym-management/backend ```
 
