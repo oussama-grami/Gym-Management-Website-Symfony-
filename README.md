@@ -1,45 +1,67 @@
-# Gym Management Website
+# 🏋️‍♂️ Gym Management Website
 
-The Gym Management Website is designed to streamline the operations of a fitness center. It provides a platform for managing members, scheduling classes for the admin and offers the possibility to the clients to create accounts, pay offers and more.
-THIS WORK WAS ELEBORATED BY A GROUP OF 4 STUDENTS IN SOFTWARE ENGINEERING OF  THE NATIONAL INSTITUTE OF APPLIED SCIENCES AND TECHNOLOGY (INSAT) /
-  --OUSSEMA GUERAMI--
-  --REFKA MAHJOUB--
-  --MOHAMMED AZIZ DHOUIBI--
-  --MARAM BEN RHOUMA--
+The **Gym Management Website** is a full-stack web application designed to **streamline the operations of a fitness center**.  
+It provides a platform for **managing members, scheduling classes, and handling offers**.  
+Clients can **create accounts, select membership plans, and pay online** — all through a user-friendly interface.
 
-## Features
+---
 
-### Admin Dashboard
+## 🚀 Features
 
-- Login
-- Manage members (add, remove, update)
-- Manage offers (add, remove)
-- Upload plannings
-- Sign out
+- ✅ Admin dashboard for:
+  - Member management
+  - Class scheduling
+  - Coach and staff management
+  - Offer and payment tracking
+- ✅ Client portal for:
+  - Account registration and login
+  - Viewing and purchasing offers
+  - Class enrollment
+- ✅ Secure authentication and role-based access control
+- ✅ Responsive design compatible with mobile and desktop
 
-### Client Interface
+---
 
-- Explore the website: services, coaches, schedules
-- Create an account (sign up)
-- Login
-- Enroll in an offer and pay it
-- Download his access card (only if he's already enrolled in an offer)
-- Visit his profile (update his data)
-- Sign out
+## 🛠️ Tech Stack
 
-## Usage
+| Front-End | Back-End  | Database | Tools & Frameworks |
+|-----------|-----------|----------|---------------------|
+| Angular   | Symfony (PHP) | MySQL    | Composer, Git, REST API, Twig |
 
-Upon accessing the website, users will be directed to the appropriate interface based on their role (admin or client). Administrators will have access to the dashboard for managing all aspects of the gym, while members can view their details, schedules, and make payments.
+---
 
-## Testing
+## 🎯 Project Objectives
 
-### Payment
-- When testing the payment procedure you should use this number for the card information: 4242 4242 4242 4242
+- Automate and simplify gym management operations
+- Provide intuitive access to services for both clients and staff
+- Implement a secure and maintainable web-based architecture
 
-### Admin Interface
+---
 
-To access to the admin account use this:
+## 👥 Team Members
 
-- Username: admin
-- Password: admin
+This project was developed by a group of 4 software engineering students at the **National Institute of Applied Sciences and Technology (INSAT)**:
+
+- 👨‍💻 Oussema Guerami  
+- 👩‍💻 Refka Mahjoub  
+- 👨‍💻 Mohammed Aziz Dhouibi  
+- 👩‍💻 Maram Ben Rhouma  
+
+---
+
+## 🏗️ Project Structure (optional)
+
+gym-management/
+├── backend/ # Symfony Application
+│ ├── src/
+│ ├── templates/ # Twig templates
+│ ├── config/
+├── frontend/ # Angular Application
+│ ├── src/app/
+│ └── ...
+└── README.md
+
+yaml
+Copier
+Modifier
 
