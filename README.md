@@ -51,17 +51,5 @@ This project was developed by a group of 4 software engineering students at the 
 
 ## 🏗️ Project Structure (optional)
 
-gym-management/
-├── backend/ # Symfony Application
-│ ├── src/
-│ ├── templates/ # Twig templates
-│ ├── config/
-├── frontend/ # Angular Application
-│ ├── src/app/
-│ └── ...
-└── README.md
-
-yaml
-Copier
-Modifier
+<pre><code>``` gym-management/ ├── backend/ # Symfony Application │ ├── src/ │ ├── templates/ # Twig templates │ ├── config/ │ └── ... ├── frontend/ # Angular Application │ ├── src/app/ │ └── ... └── README.md ```</code></pre>
 
