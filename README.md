@@ -26,7 +26,7 @@ Clients can **create accounts, select membership plans, and pay online** — all
 
 | Front-End | Back-End  | Database | Tools & Frameworks |
 |-----------|-----------|----------|---------------------|
-| Angular   | Symfony (PHP) | MySQL    | Composer, Git, REST API, Twig |
+| Symfony   | Symfony (PHP) | MySQL    | Composer, Git, REST API, Twig |
 
 ---
 
