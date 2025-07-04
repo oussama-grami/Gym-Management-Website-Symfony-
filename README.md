@@ -54,5 +54,17 @@ This project was developed by a group of 4 software engineering students at the 
 2. Clone the repository:
    ```bash
    git clone https://github.com/your-username/gym-management.git
-   cd gym-management/backend ```
+   cd gym-management/backend
+3. Install dependencies:
+   ```bash
+   composer install
+4.Configure the .env file with your DB credentials
+5.Create the database and run migrations:
+  ```bash
+  php bin/console doctrine:database:create
+  php bin/console doctrine:migrations:migrate
+
+6.
+
+
 
