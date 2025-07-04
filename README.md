@@ -58,13 +58,24 @@ This project was developed by a group of 4 software engineering students at the 
 3. Install dependencies:
    ```bash
    composer install
-4.Configure the .env file with your DB credentials
-5.Create the database and run migrations:
-  ```bash
-  php bin/console doctrine:database:create
-  php bin/console doctrine:migrations:migrate
+   
+4. Configure the .env file with your DB credentials
+5. Create the database and run migrations:
+   ```bash
+   php bin/console doctrine:database:create
+   php bin/console doctrine:migrations:migrate
+6. Start the Symfony development server:
+   ```bash
+   symfony server:start
 
-6.
+## 🧾 License
 
+This project is licensed under the **MIT License**.
 
+---
+
+## 📬 Contact
+For questions, collaboration, or suggestions, feel free to reach out via the GitHub or LinkedIn profiles of the contributors.
+
+---
 
